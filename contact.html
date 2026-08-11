@@ -9,14 +9,56 @@
 
 <body>
     <style>
-        nav{
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem;
         }
+
+        button {
+            padding: 0.2rem 0.5rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            text-decoration: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #007BFF;
+            transition: transform 0.3s ease;
+        }
+
+        nav a:hover {
+            transform: scale(1.05);
+        }
+
+        img {
+            max-height: 50px;
+            padding-left: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+        }
     </style>
-    
+
     <header>
         <!-- Navigation Bar -->
         <nav class="navigation-bar">
@@ -24,6 +66,11 @@
                 aria-expanded="false">
                 &#9776;
             </button>
+            <div>
+                <a href="index.html">
+                    <img src="images/logo.png" alt="IIE Reference Generator Logo" style="height: 100%; max-width: 100px;">
+                </a>
+            </div>
             <div style="flex-grow: 1; padding-left: 1rem" id="header-title">
                 <h1 style="margin: 0">IIE Reference Generator</h1>
             </div>
@@ -34,6 +81,48 @@
             </div>
         </nav>
     </header>
+
+    <hr style="margin: 0; border: none; border-top: 1px solid #ccc;" />
+    <br>
+
+    <aside id="side-menu" class="side-menu-container" aria-label="Sidebar Navigation">
+        <button id="menu-close" class="menu-toggle" aria-label="Close Navigation Menu">
+            &times;
+        </button>
+        <div class="side-menu-header">
+            <h2>Explorer</h2>
+            <nav class="side-navigation">
+                <ul>
+                    <li>
+                        <a href="guide.html"><span class="icon">📄</span>
+                            guide.html</a>
+                    </li>
+                    <li>
+                        <a href="https://www.rosebankcollege.co.za/" target="_blank" rel="noopener noreferrer">
+                            <span class="icon">🌍</span>
+                            rosebank_college.db
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.iie.ac.za/" target="_blank" rel="noopener noreferrer">
+                            <span class="icon">🏫</span>
+                            iie.db</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/TheCommentatorAll/IIE-Harvard-Anglia-Referencing-Generator"
+                            target="_blank" rel="noopener noreferrer">
+                            <span class="icon">💻</span>
+                            github_repo.bat
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </aside>
+
+    <hr style="margin: 0; border: none; border-top: 1px solid #ccc;" />
+    <br>
     <h1>Contact Us</h1>
     <p>If you have any questions or feedback about the IIE Reference Generator, please feel free to reach out to us.</p>
 

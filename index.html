@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <!--Temporary Styles-->
+    <!--Temporary Styles before CSS implementation-->
     <style>
         input[type="text"],
         input[type="number"],
@@ -22,6 +22,8 @@
             border-radius: 4px;
             field-sizing: content;
             min-width: 120px;
+            font-family: monospace;
+            margin-bottom: 0.5rem;
         }
 
         button {
@@ -38,11 +40,31 @@
             background-color: #0056b3;
         }
 
+        .menu-toggle span {
+            display: inline-block;
+            transition: transform 0.3 ease;
+        }
+
+        .menu-toggle:hover span {
+            transform: scale(1.2);
+        }
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem;
+            text-decoration: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #007BFF;
+            transition: transform 0.3s ease;
+        }
+
+        nav a:hover {
+            transform: scale(1.05);
         }
 
         img {
@@ -55,59 +77,94 @@
             transform: scale(1.05);
         }
 
-        .side-navigation span.icon, ul li a  {
+        .side-navigation ul {
+
             list-style-type: none;
             padding: 0;
-            transform: scale(1.05);
-            text-decoration: none;
+            margin: 0;
+        }
+
+        .side-nav-link:hover {
+            display: flex;
+            align-items: center;
+        }
+
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-family: monospace;
+
+        }
+
+        fieldset legend {
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 0 0.5rem;
         }
     </style>
 
     <header>
         <!-- Navigation Bar -->
         <nav class="navigation-bar">
-            <button id="menu-toggle " class="menu-toggle" aria-label="Open Navigation Menu" aria-controls="side-menu"
+            <button id="menu-toggle" class="menu-toggle" aria-label="Open Navigation Menu" aria-controls="side-menu"
                 aria-expanded="false">
-                &#9776;
+                <span>&#9776;</span>
             </button>
             <div>
-                <img src="images/logo.png" alt="IIE Reference Generator Logo" style="height: 100%; max-width: 100px;">
+                <a href="index.html"><img src="images/logo.png" alt="IIE Reference Generator Logo"
+                        style="height: 100%; max-width: 100px;">
+                </a>
             </div>
             <div style="flex-grow: 1; padding-left: 1rem" id="header-title">
                 <h1 style="margin: 0">IIE Reference Generator</h1>
             </div>
-            <div id="navigation " class="navigation" style="display: flex; gap: 1rem">
-                <a href="index.html" class="nav-link">generator.js</a>
+            <div id="navigation" class="navigation" style="display: flex; gap: 1rem">
+                <a href="guide.html" class="nav-link">guide.js</a>
                 <a href="about.html" class="nav-link">about.html</a>
                 <a href="contact.html" class="nav-link">contact.md</a>
             </div>
         </nav>
     </header>
+    <hr style="margin: 0; border: none; border-top: 1px solid #ccc;" />
+    <br />
 
     <!-- Sidebar Navigation Explorer -->
-    <!--TODO: Implement sidebar navigation logic-->
+    <!--TODO: Implement sidebar navigation logic in JS-->
     <aside id="side-menu" class="side-menu-container" aria-label="Sidebar Navigation">
-     <button id="menu-close" class="menu-toggle" aria-label="Close Navigation Menu">
-         &times;
-     </button>
-     <div class="side-menu-header">
-         <h2>Explorer</h2>
-         <nav class="side-navigation">
-             <ul>
-                 <li>
-                     <a href="guide.html"><span class="icon">📄</span>
-                         guide.html</a>
-                 </li>
-                 <li>
-                     <a href="https://www.rosebankcollege.co.za/"><span
-                             class="icon">🌍</span>
-                         rosebank_college.db</a>
-                 </li>
-             </ul>
-         </nav>
-     </div>
-        
+        <button id="menu-close" class="menu-toggle" aria-label="Close Navigation Menu">
+            <span>&times;</span>
+        </button>
+        <div class="side-menu-header">
+            <h2>Explorer</h2>
+            <nav class="side-navigation">
+                <ul>
+                    <li>
+                        <a href="https://www.rosebankcollege.co.za/" class="side-nav-link" target="_blank"
+                            rel="noopener noreferrer">
+                            <span class="icon">🌍</span>
+                            rosebank_college.db
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.iie.ac.za/" class="side-nav-link" target="_blank"
+                            rel="noopener noreferrer">
+                            <span class="icon">🏫</span>
+                            iie.db</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/TheCommentatorAll/IIE-Harvard-Anglia-Referencing-Generator"
+                            class="side-nav-link" target="_blank" rel="noopener noreferrer">
+                            <span class="icon">💻</span>
+                            github_repo.bat
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
     </aside>
+    <hr style="margin: 0; border: none; border-top: 1px solid #ccc;" />
 
     <!-- Overlay for Sidebar (implemented in CSS and JS)-->
     <div id="overlay" class="overlay"></div>
@@ -118,11 +175,18 @@
                 <h3>Autofetch</h3>
                 <label for="url-input ">Enter Source Link or
                     Identifier:</label>
-                <div style="display: flex; gap: 0.5rem">
+                <div>
+
                     <input type="url" id="url-input" name="url-input" placeholder="https://example.com"
                         aria-label="Enter URL for Autofetch" />
                     <button id="autofetch-button" aria-label="Fetch Reference Data">
                         Fetch Metadata
+                    </button>
+                    <button id="paste-button" aria-label="Paste from Clipboard">
+                        Paste from Clipboard
+                    </button>
+                    <button id="clear-button" aria-label="Clear Input Field">
+                        Clear
                     </button>
                 </div>
             </div>
@@ -347,6 +411,7 @@
 
                     <!-- TODO: Additional fieldsets for other reference types can be added here -->
 
+                    <!--Container for Blog Articles-->
                     <fieldset id="fields-blog" class="source-fieldset">
                         <legend>Blog Article Details</legend>
 
@@ -390,6 +455,56 @@
                             <input type="text" id="blog-accessed-date" name="blog-accessed-date"
                                 placeholder="e.g. 12 March 2025" />
                         </div>
+                    </fieldset>
+
+                    <!--Container for Student Material / Module Manual-->
+                    <fieldset id="fields-student_material" class="source-fieldset">
+                        <legend>Student Material / Module Manual Details</legend>
+
+                        <div id="author-container">
+                            <label for="student-material-author">Author(s):</label>
+                            <div class="author-row form-group-inline">
+                                <input type="text" id="student-material-author-surname"
+                                    name="student-material-author-surname" placeholder="Lecturer/Author" />
+                                <input type="text" id="student-material-author-initials"
+                                    name="student-material-author-initials" placeholder="Initials" />
+                                <button type="button" id="add-author-btn" class="btn-add-author"
+                                    aria-label="Add Another Author">
+                                    + add Author
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-material-year">Year / Full Date:</label>
+                            <input type="text" id="student-material-year" name="student-material-year"
+                                placeholder="e.g. 2024" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-material-title">Title of Material:</label>
+                            <input type="text" id="student-material-title" name="student-material-title"
+                                placeholder="e.g. Module Manual for Academic Writing" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-material-institution">Institution / College Name:</label>
+                            <input type="text" id="student-material-institution" name="student-material-institution"
+                                placeholder="e.g. Independent Institute of Education (IIE)" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-material-url">URL (if applicable):</label>
+                            <input type="url" id="student-material-url" name="student-material-url"
+                                placeholder="https://..." />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-material-accessed-date">Date Accessed:</label>
+                            <input type="text" id="student-material-accessed-date" name="student-material-accessed-date"
+                                placeholder="e.g. 12 March 2025" />
+                        </div>
+
                     </fieldset>
 
                     <div style="margin-top: 1.5rem">

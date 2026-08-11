@@ -1,12 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - IIE Reference Generator</title>
 </head>
+
 <body>
+    <style>
+        nav{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+    </style>
+    
+    <header>
+        <!-- Navigation Bar -->
+        <nav class="navigation-bar">
+            <button id="menu-toggle " class="menu-toggle" aria-label="Open Navigation Menu" aria-controls="side-menu"
+                aria-expanded="false">
+                &#9776;
+            </button>
+            <div style="flex-grow: 1; padding-left: 1rem" id="header-title">
+                <h1 style="margin: 0">IIE Reference Generator</h1>
+            </div>
+            <div id="navigation " class="navigation" style="display: flex; gap: 1rem">
+                <a href="index.html">generator.js</a>
+                <a href="about.html">about.html</a>
+                <a href="contact.html">contact.md</a>
+            </div>
+        </nav>
+    </header>
+
     <h1>About the IIE Reference Generator</h1>
-    <p>This is a simple reference generator for IIE students. Whereby they can easily create Harvard-style references for their assignments.</p>
+    
+
+    <section id="about-hero">
+        <h1>// About the Generator</h1>
+        <p>This is a simple reference generator for IIE students. Whereby they can easily create Harvard-style references
+        for their assignments.</p>
+        <p>A precision-focused, developer-styled tool for accurate IIE Harvard Anglia academic referencing.</p>
+    </section>
+
+    <section id="project-purpose">
+        <h2>01. Purpose & Vision</h2>
+        <p>
+            Referencing according to the IIE (Independent Institute of Education) Harvard Anglia standard
+            demands strict precision—from punctuation marks to italicisation rules. This tool was built to
+            streamline the citation process for students and researchers, offering both quick automated
+            metadata extraction and granular manual entry.
+        </p>
+    </section>
+
+    <section id="key-features">
+        <h2>02. Core System Features</h2>
+        <ul>
+            <li><strong>Dual-Mode Data Entry:</strong> Auto-extract metadata from web URLs or manually fill form
+                fieldsets.</li>
+            <li><strong>IIE Anglia Compliance:</strong> Formatted specifically to conform to IIE Harvard Anglia
+                referencing requirements.</li>
+            <li><strong>Instant Clipboard Export:</strong> Copy in-text citations and full reference entries with a
+                single click.</li>
+            <li><strong>Responsive IDE Interface:</strong> retro-inspired codebase UI for clean navigation.</li>
+        </ul>
+    </section>
+
+    <section id="referencing-standard">
+        <h2>03. Understanding IIE Harvard Anglia</h2>
+        <p>
+            The IIE Harvard Anglia style is a specific adaptation of the Harvard referencing system. It requires precise
+            formatting for:
+        </p>
+        <ul>
+            <li><strong>In-Text Citations:</strong> Incorporating author surnames and publication years directly into
+                the body text (e.g., Smith, 2024: 15).</li>
+            <li><strong>Reference List Entries:</strong> Arranging full source details alphabetically at the end of the
+                document, utilizing exact casing, italics, and retrieval details for online sources.</li>
+        </ul>
+    </section>
 </body>
+
 </html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Guide & Reference Rules for IIE Harvard Anglia Referencing Standard">
+    <meta name="author" content="Nicholas Morris ST10502284">
+    <title>User Manual & Reference Guide | IIE Harvard Generator</title>
+</head>
+
+<body>
+
+    <style>
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        button {
+            padding: 0.2rem 0.5rem;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            text-decoration: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #007BFF;
+            transition: transform 0.3s ease;
+        }
+
+        nav a:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-toggle span {
+            display: inline-block;
+            transition: transform 0.3 ease;
+        }
+
+        .menu-toggle:hover span {
+            transform: scale(1.2);
+        }
+
+        .side-navigation ul {
+
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-nav-link {
+            /*display type required for transforming*/
+            display: flex;
+            transition: transform 0.3 ease;
+        }
+
+        .side-nav-link:hover {
+            transform: scale(1.05);
+        }
+
+        img {
+            max-height: 50px;
+            padding-left: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+
+        }
+    </style>
+
+    <header>
+        <!-- Navigation Bar -->
+        <nav class="navigation-bar">
+            <button id="menu-toggle" class="menu-toggle" aria-label="Open Navigation Menu" aria-controls="side-menu"
+                aria-expanded="false">
+                <span>&#9776;</span>
+            </button>
+            <div>
+                <a href="index.html"><img src="images/logo.png" alt="IIE Reference Generator Logo"
+                        style="height: 100%; max-width: 100px;">
+                </a>
+            </div>
+            <div style="flex-grow: 1; padding-left: 1rem; text-align: center" id="header-title">
+                <h1 style="margin: 0; font-family: monospace">IIE Reference Generator</h1>
+            </div>
+            <div id="navigation" class="navigation" style="display: flex; gap: 1rem">
+                <a href="guide.html" class="nav-link">guide.js</a>
+                <a href="about.html" class="nav-link">about.html</a>
+                <a href="contact.html" class="nav-link">contact.md</a>
+            </div>
+        </nav>
+    </header>
+    <hr style="margin: 0; border: none; border-top: 1px solid #ccc;" />
+    <br />
+
+    <!-- Sidebar Navigation Explorer -->
+    <!--TODO: Implement sidebar navigation logic in JS-->
+    <aside id="side-menu" class="side-menu-container" aria-label="Sidebar Navigation">
+        <button id="menu-close" class="menu-toggle" aria-label="Close Navigation Menu">
+            <span>&times;</span>
+        </button>
+        <div class="side-menu-header">
+            <h2>Explorer</h2>
+            <nav class="side-navigation">
+                <ul>
+                    <li>
+                        <a href="https://www.rosebankcollege.co.za/" class="side-nav-link" target="_blank"
+                            rel="noopener noreferrer">
+                            <span class="icon">🌍</span>
+                            rosebank_college.db
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.iie.ac.za/" class="side-nav-link" target="_blank"
+                            rel="noopener noreferrer">
+                            <span class="icon">🏫</span>
+                            iie.db</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/TheCommentatorAll/IIE-Harvard-Anglia-Referencing-Generator"
+                            class="side-nav-link" target="_blank" rel="noopener noreferrer">
+                            <span class="icon">💻</span>
+                            github_repo.bat
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </aside>
+    <hr style="margin: 0; border: none; border-top: 1px solid #ccc;" />
+
+    <main class="main-content">
+
+        <section class="page-intro terminal-window">
+            <div class="window-body">
+                <h2>Documentation & Referencing Rules</h2>
+                <p>Learn how to use the automated generator tool and review IIE Harvard Anglia (2025) formatting
+                    standards.</p>
+            </div>
+        </section>
+
+        <section id="how-to-use" class="guide-section">
+            <h3>// 1. How to Use the Generator</h3>
+            <div>
+                <div class="how-to">
+                    <span>01</span>
+                    <h4>Select Reference Type</h4>
+                    <p>Choose the target media format from the dropdown menu (e.g., Book, Journal, Webpage, Online
+                        Video) to load the custom input fields.</p>
+                </div>
+
+                <div>
+                    <span>02</span>
+                    <h4>Auto-Fetch or Fill Fields</h4>
+                    <p>Paste a web address to auto-fetch metadata, or manually type details (Authors, Publication Year,
+                        Title, Publisher/URL).</p>
+                </div>
+
+                <div>
+                    <span>03</span>
+                    <h4>Copy Citations</h4>
+                    <p>View the live output in the preview window. Click <code>[COPY IN-TEXT]</code> or <code>[COPY
+                            REFERENCE LIST]</code> to paste directly into your assignment.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="reference-rules" class="guide-section">
+            <h3>// 2. IIE Harvard Anglia Reference Rules</h3>
+
+            <article class="rule-card" id="ref-book">
+                <h4>1. Book (Print &amp; eBook)</h4>
+                <div class="format-block">
+                    <h5>In-Text Format:</h5>
+                    <p><strong>Paraphrased:</strong> (Surname, Year) or Surname (Year)</p>
+                    <p><strong>Direct Quote:</strong> (Surname, Year, p. X) or Surname (Year, p. X)</p>
+                    <small>*Note: Use <code>p.</code> for single pages and <code>pp.</code> for page ranges.
+                        For 4+ authors, use <code>et al.</code> in-text.</small>
+                </div>
+                <div class="format-block">
+                    <h5>Reference List Format:</h5>
+                    <code>Author Surname, Initials. Year. <em>Title of book</em>. Edition (if not 1st). Place of
+                        publication: Publisher.</code>
+                    <p class="example-box"><strong>Example:</strong> Hüther, G., 2006. <em>The compassionate brain: How
+                            empathy creates intelligence</em>. Boston: Trumpeter. </p>
+                </div>
+            </article>
+
+            <article class="rule-card" id="ref-journal">
+                <h4>2. Journal Article (Print / Online Database)</h4>
+                <div class="format-block">
+                    <h5>In-Text Format:</h5>
+                    <p><strong>Paraphrased:</strong> (Barker, 2009)</p>
+                    <p><strong>Direct Quote:</strong> (Barker, 2009, p. 7)</p>
+                </div>
+                <div class="format-block">
+                    <h5>Reference List Format:</h5>
+                    <code>Author Surname, Initials. Year. Title of article. <em>Name of Journal</em>, Volume(Issue), pp.
+                        page range. Available at: &lt;URL/DOI&gt; [Accessed Date].</code>
+                    <p class="example-box"><strong>Example:</strong> Barker, R., 2009. A qualitative thematic analysis
+                        of Facebook profiles. <em>Journal of Qualitative Research</em>, [e-journal] 42(1), pp.7–14.
+                        &lt;https://journals.sagepub.com/doi/10.1177/1745691612442904&gt; [Accessed 22 July 2023].
+                    </p>
+                </div>
+            </article>
+
+            <article class="rule-card" id="ref-website">
+                <h4>3. Website / Webpage</h4>
+                <div class="format-block">
+                    <h5>In-Text Format:</h5>
+                    <p><strong>Paraphrased:</strong> (World Health Organization, 2022)</p>
+                    <p><strong>Direct Quote:</strong> (World Health Organization, 2022)</p>
+                </div>
+                <div class="format-block">
+                    <h5>Reference List Format:</h5>
+                    <code>Author Surname, Initials. Year. <em>Title of webpage</em>. [online] Available at: &lt;URL&gt;
+                        [Accessed Date].</code>
+                    <p class="example-box"><strong>Example:</strong> Foundation for Economic Education, 2014.
+                        <em>England's Whetstone named FEE's first Blinking Lights Award recipient</em>. [online]
+                        Available at:
+                        &lt;https://fee.org/resources/englands-whetstone-named-fees-first-blinking-lights-award-recipient/&gt;
+                        [Accessed 16 July 2014].</p>
+                </div>
+            </article>
+
+            <article class="rule-card" id="ref-blog">
+                <h4>4. Blog Article</h4>
+                <div class="format-block">
+                    <h5>In-Text Format:</h5>
+                    <p><strong>Paraphrased:</strong> (Geezer, 2009)</p>
+                    <p><strong>Direct Quote:</strong> (Geezer, 2009)</p>
+                </div>
+                <div class="format-block">
+                    <h5>Reference List Format:</h5>
+                    <code>Author Surname, Initials. Year. Title of individual blog entry. <em>Blog Title</em>, [blog]
+                        Posting Day Month. Available at: &lt;URL&gt; [Accessed Date].</code>
+                    <p class="example-box"><strong>Example:</strong> Geezer, D., 2009. Conservationists are not making
+                        themselves heard. <em>Guardian.co.uk Science blog</em>, [blog] 18 June. Available at:
+                        &lt;https://www.theguardian.com/science/blog/2009/jun/18/conservation-extinction-open-ground&gt;
+                        [Accessed 23 June 2009].</p>
+                </div>
+            </article>
+
+            <article class="rule-card" id="ref-video">
+                <h4>5. Online Video (YouTube / TEDx)</h4>
+                <div class="format-block">
+                    <h5>In-Text Format:</h5>
+                    <p><strong>Paraphrased:</strong> (Defra, 2007)</p>
+                    <p><strong>Direct Quote:</strong> (Defra, 2007: 02:15) <small>(Include timestamp for video
+                            quotes)</small></p>
+                </div>
+                <div class="format-block">
+                    <h5>Reference List Format:</h5>
+                    <code>Author / Channel Name. Year. <em>Title of video</em>. [video online] Available at: &lt;URL&gt;
+                        [Accessed Date].</code>
+                    <p class="example-box"><strong>Example:</strong> Defra, 2007. <em>Sustainable development: the
+                            bigger picture</em>. [video online] Available at:
+                        &lt;https://www.youtube.com/watch?v=keZmg56ahdM&gt; [Accessed 23 June 2012].</p>
+                </div>
+            </article>
+
+            <article class="rule-card" id="ref-student">
+                <h4>6. Student Material (Module Outlines / Lecture Notes / Learn Portal)</h4>
+                <div class="format-block">
+                    <h5>In-Text Format:</h5>
+                    <p><strong>Paraphrased:</strong> (The Independent Institute of Education, 2025)</p>
+                    <p><strong>Direct Quote:</strong> (The Independent Institute of Education, 2025, p. 12)</p>
+                </div>
+                <div class="format-block">
+                    <h5>Reference List Format:</h5>
+                    <code>Author / Institution. Year. <em>Title of module outline / lecture unit</em>. [Module Guide /
+                        Lecture Notes]. Place: Publisher / Portal.</code>
+                    <p class="example-box"><strong>Example:</strong> The Independent Institute of Education (IIE), 2025.
+                        <em>Academic Literacy (ACLI5111) Module Outline</em>. [Module guide]. Johannesburg: The
+                        Independent Institute of Education. </p>
+                </div>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 IIE Reference Generator. Built in accordance with IIE Harvard Anglia Referencing Manual.</p>
+    </footer>
+
+</body>
+
+</html>

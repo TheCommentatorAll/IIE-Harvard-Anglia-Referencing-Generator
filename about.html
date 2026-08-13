@@ -4,17 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - IIE Reference Generator</title>
+    <meta name="author" content="Nicholas Morris ST10502284">
+    <meta name="description" content="About the IIE Reference Generator">
+    <title>About | IIE Reference Generator</title>
 </head>
 
 <body>
     <style>
-        nav{
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem;
         }
+
         button {
             padding: 0.2rem 0.5rem;
             border: none;
@@ -29,7 +32,7 @@
             background-color: #0056b3;
         }
 
-        nav{
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -37,13 +40,39 @@
             text-decoration: none;
         }
 
-        nav a{
+        nav a {
             text-decoration: none;
             color: #007BFF;
             transition: transform 0.3s ease;
         }
 
         nav a:hover {
+            transform: scale(1.05);
+        }
+
+        .menu-toggle span {
+            display: inline-block;
+            transition: transform 0.3 ease;
+        }
+
+        .menu-toggle:hover span {
+            transform: scale(1.2);
+        }
+
+         .side-navigation ul {
+
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-nav-link{
+            /*display type required for transforming*/
+            display: flex;
+            transition: transform 0.3 ease;
+        }
+
+        .side-nav-link:hover{
             transform: scale(1.05);
         }
 
@@ -61,21 +90,22 @@
     <header>
         <!-- Navigation Bar -->
         <nav class="navigation-bar">
-            <button id="menu-toggle " class="menu-toggle" aria-label="Open Navigation Menu" aria-controls="side-menu"
+            <button id="menu-toggle" class="menu-toggle" aria-label="Open Navigation Menu" aria-controls="side-menu"
                 aria-expanded="false">
-                &#9776;
+                <span>&#9776;</span>
             </button>
             <div>
-                <a href="index.html"><img src="images/logo.png" alt="IIE Reference Generator Logo" style="height: 100%; max-width: 100px;">
+                <a href="index.html"><img src="images/logo.png" alt="IIE Reference Generator Logo"
+                        style="height: 100%; max-width: 100px;">
                 </a>
             </div>
-            <div style="flex-grow: 1; padding-left: 1rem" id="header-title">
-                <h1 style="margin: 0">IIE Reference Generator</h1>
+            <div style="flex-grow: 1; padding-left: 1rem; text-align: center" id="header-title">
+                <h1 style="margin: 0; font-family: monospace">IIE Reference Generator</h1>
             </div>
-            <div id="navigation " class="navigation" style="display: flex; gap: 1rem">
-                <a href="index.html">generator.js</a>
-                <a href="about.html">about.html</a>
-                <a href="contact.html">contact.md</a>
+            <div id="navigation" class="navigation" style="display: flex; gap: 1rem">
+                <a href="guide.html" class="nav-link">guide.js</a>
+                <a href="about.html" class="nav-link">about.html</a>
+                <a href="contact.html" class="nav-link">contact.md</a>
             </div>
         </nav>
     </header>
@@ -83,34 +113,30 @@
     <hr style="margin: 0; border: none; border-top: 1px solid #ccc;" />
     <br>
 
-    <aside id="side-menu" class="side-menu-container" aria-label="Sidebar Navigation">
+     <aside id="side-menu" class="side-menu-container" aria-label="Sidebar Navigation">
         <button id="menu-close" class="menu-toggle" aria-label="Close Navigation Menu">
-            &times;
+            <span>&times;</span>
         </button>
         <div class="side-menu-header">
             <h2>Explorer</h2>
             <nav class="side-navigation">
                 <ul>
                     <li>
-                        <a href="guide.html"><span class="icon">📄</span>
-                            guide.html</a>
-                    </li>
-                    <li>
-                        <a href="https://www.rosebankcollege.co.za/"
-                            target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.rosebankcollege.co.za/" class="side-nav-link" target="_blank"
+                            rel="noopener noreferrer">
                             <span class="icon">🌍</span>
                             rosebank_college.db
                         </a>
                     </li>
                     <li>
-                        <a href="https://www.iie.ac.za/"
-                            target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.iie.ac.za/" class="side-nav-link" target="_blank"
+                            rel="noopener noreferrer">
                             <span class="icon">🏫</span>
                             iie.db</a>
                     </li>
                     <li>
                         <a href="https://github.com/TheCommentatorAll/IIE-Harvard-Anglia-Referencing-Generator"
-                            target="_blank" rel="noopener noreferrer">
+                            class="side-nav-link" target="_blank" rel="noopener noreferrer">
                             <span class="icon">💻</span>
                             github_repo.bat
                         </a>

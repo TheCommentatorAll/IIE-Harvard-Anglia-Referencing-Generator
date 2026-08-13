@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Nicholas Morris ST10502284" />
     <meta name="description" content="IIE Harvard Anglia Reference Generator" />
-    <title>Reference Generator for the IIE</title>
+    <title>Home | IIE Reference Generator</title>
 </head>
 
 <body>
@@ -49,6 +49,18 @@
             transform: scale(1.2);
         }
 
+
+        img {
+            display:flex;
+            max-height: 50px;
+            padding-left: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+        }
+        
         nav {
             display: flex;
             justify-content: space-between;
@@ -67,16 +79,6 @@
             transform: scale(1.05);
         }
 
-        img {
-            max-height: 50px;
-            padding-left: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        img:hover {
-            transform: scale(1.05);
-        }
-
         .side-navigation ul {
 
             list-style-type: none;
@@ -84,9 +86,14 @@
             margin: 0;
         }
 
-        .side-nav-link:hover {
+        .side-nav-link{
+            /*display type required for transforming*/
             display: flex;
-            align-items: center;
+            transition: transform 0.3 ease;
+        }
+
+        .side-nav-link:hover{
+            transform: scale(1.05);
         }
 
         fieldset {
@@ -116,8 +123,8 @@
                         style="height: 100%; max-width: 100px;">
                 </a>
             </div>
-            <div style="flex-grow: 1; padding-left: 1rem" id="header-title">
-                <h1 style="margin: 0">IIE Reference Generator</h1>
+            <div style="flex-grow: 1; padding-left: 1rem; text-align: center" id="header-title">
+                <h1 style="margin: 0; font-family: monospace">IIE Reference Generator</h1>
             </div>
             <div id="navigation" class="navigation" style="display: flex; gap: 1rem">
                 <a href="guide.html" class="nav-link">guide.js</a>
@@ -546,8 +553,7 @@
 
     <footer style="text-align: center; padding: 1rem">
         <p>
-            &copy; 2026 IIE Reference Generator ST10502284. All rights
-            reserved.
+            &copy; 2026 ST10502284. IE Reference Generator. Built in accordance with IIE Harvard Anglia Referencing Manual. All rights reserved.</p>
         </p>
     </footer>
 </body>

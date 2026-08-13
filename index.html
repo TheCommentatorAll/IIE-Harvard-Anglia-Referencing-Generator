@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Nicholas Morris ST10502284" />
     <meta name="description" content="IIE Harvard Anglia Reference Generator" />
-    <title>Reference Generator for the IIE</title>
+    <title>Home | IIE Reference Generator</title>
 </head>
 
 <body>
+    <!--Temporary Styles before CSS implementation-->
     <style>
-
         input[type="text"],
         input[type="number"],
         input[type="url"],
@@ -20,72 +20,158 @@
             padding: 0.2rem 0.5rem;
             border: 1px solid #ccc;
             border-radius: 4px;
-            field-sizing:content;
+            field-sizing: content;
             min-width: 120px;
+            font-family: monospace;
+            margin-bottom: 0.5rem;
         }
-        
-        button{
+
+        button {
             padding: 0.2rem 0.5rem;
             border: none;
             border-radius: 4px;
             background-color: #007BFF;
             color: white;
             cursor: pointer;
+
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .menu-toggle span {
+            display: inline-block;
+            transition: transform 0.3 ease;
+        }
+
+        .menu-toggle:hover span {
+            transform: scale(1.2);
+        }
+
+
+        img {
+            display:flex;
+            max-height: 50px;
+            padding-left: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            text-decoration: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #007BFF;
+            transition: transform 0.3s ease;
+        }
+
+        nav a:hover {
+            transform: scale(1.05);
+        }
+
+        .side-navigation ul {
+
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .side-nav-link{
+            /*display type required for transforming*/
+            display: flex;
+            transition: transform 0.3 ease;
+        }
+
+        .side-nav-link:hover{
+            transform: scale(1.05);
+        }
+
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-family: monospace;
+
+        }
+
+        fieldset legend {
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 0 0.5rem;
         }
     </style>
+
     <header>
         <!-- Navigation Bar -->
-        <nav style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1rem;
-        ">
-            <button id="menu-toggle " class="menu-toggle" aria-label="Open Navigation Menu" aria-controls="side-menu"
+        <nav class="navigation-bar">
+            <button id="menu-toggle" class="menu-toggle" aria-label="Open Navigation Menu" aria-controls="side-menu"
                 aria-expanded="false">
-                &#9776;
+                <span>&#9776;</span>
             </button>
-            <div style="flex-grow: 1; padding-left: 1rem" id="header-title">
-                <h1 style="margin: 0">IIE Reference Generator</h1>
+            <div>
+                <a href="index.html"><img src="images/logo.png" alt="IIE Reference Generator Logo"
+                        style="height: 100%; max-width: 100px;">
+                </a>
             </div>
-            <div id="navigation " class="navigation" style="display: flex; gap: 1rem">
-                <a href="index.html">generator.js</a>
-                <a href="about.html">about.html</a>
-                <a href="contact.html">contact.md</a>
+            <div style="flex-grow: 1; padding-left: 1rem; text-align: center" id="header-title">
+                <h1 style="margin: 0; font-family: monospace">IIE Reference Generator</h1>
+            </div>
+            <div id="navigation" class="navigation" style="display: flex; gap: 1rem">
+                <a href="guide.html" class="nav-link">guide.js</a>
+                <a href="about.html" class="nav-link">about.html</a>
+                <a href="contact.html" class="nav-link">contact.md</a>
             </div>
         </nav>
     </header>
+    <hr style="margin: 0; border: none; border-top: 1px solid #ccc;" />
+    <br />
 
     <!-- Sidebar Navigation Explorer -->
+    <!--TODO: Implement sidebar navigation logic in JS-->
     <aside id="side-menu" class="side-menu-container" aria-label="Sidebar Navigation">
         <button id="menu-close" class="menu-toggle" aria-label="Close Navigation Menu">
-            &times;
+            <span>&times;</span>
         </button>
-
         <div class="side-menu-header">
             <h2>Explorer</h2>
+            <nav class="side-navigation">
+                <ul>
+                    <li>
+                        <a href="https://www.rosebankcollege.co.za/" class="side-nav-link" target="_blank"
+                            rel="noopener noreferrer">
+                            <span class="icon">🌍</span>
+                            rosebank_college.db
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.iie.ac.za/" class="side-nav-link" target="_blank"
+                            rel="noopener noreferrer">
+                            <span class="icon">🏫</span>
+                            iie.db</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/TheCommentatorAll/IIE-Harvard-Anglia-Referencing-Generator"
+                            class="side-nav-link" target="_blank" rel="noopener noreferrer">
+                            <span class="icon">💻</span>
+                            github_repo.bat
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        <nav class="side-navigation">
-            <ul>
-                <li>
-                    <a href="index.html"><span class="icon">📄</span>
-                        generator.js</a>
-                </li>
-                <li>
-                    <a href="about.html"><span class="icon">📄</span>
-                        about.html</a>
-                </li>
-                <li>
-                    <a href="contact.html"><span class="icon">📄</span>
-                        contact.md</a>
-                </li>
-                <li>
-                    <a href="https://www.rosebankcollege.co.za/" target="_blank"><span class="icon">🌍</span>
-                        rosebank_college.db</a>
-                </li>
-            </ul>
-        </nav>
+
     </aside>
+    <hr style="margin: 0; border: none; border-top: 1px solid #ccc;" />
 
     <!-- Overlay for Sidebar (implemented in CSS and JS)-->
     <div id="overlay" class="overlay"></div>
@@ -96,11 +182,18 @@
                 <h3>Autofetch</h3>
                 <label for="url-input ">Enter Source Link or
                     Identifier:</label>
-                <div style="display: flex; gap: 0.5rem">
+                <div>
+
                     <input type="url" id="url-input" name="url-input" placeholder="https://example.com"
                         aria-label="Enter URL for Autofetch" />
                     <button id="autofetch-button" aria-label="Fetch Reference Data">
                         Fetch Metadata
+                    </button>
+                    <button id="paste-button" aria-label="Paste from Clipboard">
+                        Paste from Clipboard
+                    </button>
+                    <button id="clear-button" aria-label="Clear Input Field">
+                        Clear
                     </button>
                 </div>
             </div>
@@ -134,7 +227,6 @@
                     </div>
 
                     <!--div will be implemented when writing CSS and JS-->
-                    <div id="dynamic-fields"></div>
 
                     <!-- Fieldsets for different reference types TODO: add hidden fields -->
                     <!-- Container for book fields -->
@@ -145,12 +237,12 @@
                             <label for="book-author">Author(s):</label>
                             <div class="author-row form-group-inline">
                                 <input type="text" id="book-author-surname" name="book-author-surname"
-                                    placeholder="Book Author Surname" />
-                                <input type="text" id="book-author-firstname" name="book-author-initials"
-                                    placeholder="Book Author Initials" />
+                                    placeholder="Book Author Surname" required />
+                                <input type="text" id="book-author-initials" name="book-author-initials"
+                                    placeholder="Book Author Initials" required />
                                 <button type="button" id="add-author-btn" class="btn-add-author"
                                     aria-label="Add Another Author">
-                                    +
+                                    + add Author
                                 </button>
                             </div>
                         </div>
@@ -169,8 +261,7 @@
                         <!--Edition-->
                         <div class="form-group">
                             <label for="book-edition">Edition (if not 1st):</label>
-                            <input type="text" id="book-edition" name="book-edition"
-                                placeholder="e.g. 2nd ed." />
+                            <input type="text" id="book-edition" name="book-edition" placeholder="e.g. 2nd ed." />
                         </div>
                         <!--Place of Publication-->
                         <div class="form-group">
@@ -189,21 +280,35 @@
                     <!-- Container for journal fields -->
                     <fieldset id="fields-journal" class="source-fieldset">
                         <legend>Journal Reference Details</legend>
-                        <div class="form-group">
+                        <div id="author-container">
                             <label for="journal-author">Author(s):</label>
-                            <input type="text" id="journal-author" name="journal-author"
-                                placeholder="Enter Journal Author(s)" />
+                            <div class="author-row form-group-inline">
+                                <input type="text" id="journal-author-surname" name="journal-author-surname"
+                                    placeholder="Journal Author Surname" required />
+                                <input type="text" id="journal-author-initials" name="journal-author-initials"
+                                    placeholder="Journal Author Initials" required />
+                                <button type="button" id="add-author-btn" class="btn-add-author"
+                                    aria-label="Add Another Author">
+                                    + add Author
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="journal-year">Year of Publication:</label>
+                            <input type="number" id="journal-year" name="journal-year" placeholder="e.g. 2020"
+                                min="1000" max="2099" required />
                         </div>
 
                         <div class="form-group">
                             <label for="journal-title">Title:</label>
-                            <input type="text " id="journal-title" name="journal-title"
+                            <input type="text" id="journal-title" name="journal-title"
                                 placeholder="Enter Journal Title" />
                         </div>
 
                         <div class="form-group">
                             <label for="journal-name">Journal Name:</label>
-                            <input type="text " id="journal-name" name="journal-name"
+                            <input type="text" id="journal-name" name="journal-name"
                                 placeholder="e.g. Journal of Academic Technology" />
                         </div>
 
@@ -233,86 +338,181 @@
                         <div class="form-group">
                             <label for="web-author ">Author /
                                 Organisation:</label>
-                            <input type="text " id="web-author " name="web-author "
-                                placeholder="e.g. World Health Organization " />
+                            <input type="text" id="web-author" name="web-author"
+                                placeholder="e.g. World Health Organization" required />
                         </div>
 
                         <div class="form-group">
                             <label for="web-year ">Year / Full Date:</label>
-                            <input type="text " id="web-year " name="web-year " placeholder="e.g. 2024 " />
+                            <input type="text" id="web-year" name="web-year" placeholder="e.g. 2024 " required />
                         </div>
 
                         <div class="form-group">
-                            <label for="web-page-title ">Page / Article
+                            <label for="web-page-title">Page / Article
                                 Title:</label>
-                            <input type="text " id="web-page-title " name="web-page-title "
-                                placeholder="e.g. Global Health Statistics " />
+                            <input type="text" id="web-page-title" name="web-page-title"
+                                placeholder="e.g. Global Health Statistics" required />
                         </div>
 
                         <div class="form-group">
                             <label for="web-site-title ">Website
                                 Name:</label>
-                            <input type="text " id="web-site-title " name="web-site-title "
-                                placeholder="e.g. WHO Official Site " />
+                            <input type="text" id="web-site-title" name="web-site-title"
+                                placeholder="e.g. WHO Official Site" required />
                         </div>
 
                         <div class="form-group">
                             <label for="web-url ">URL:</label>
-                            <input type="url " id="web-url " name="web-url " placeholder="https://... " />
+                            <input type="url" id="web-url" name="web-url" placeholder="https://..." required />
                         </div>
 
                         <div class="form-group">
                             <label for="web-accessed-date ">Date
                                 Accessed:</label>
-                            <input type="text " id="web-accessed-date " name="web-accessed-date "
-                                placeholder="e.g. 12 March 2025 " />
+                            <input type="text" id="web-accessed-date " name="web-accessed-date"
+                                placeholder="e.g. 12 March 2025" />
                         </div>
                     </fieldset>
 
                     <!-- Container for Online Video Fields -->
-                    <fieldset id="fields-online_video " class="source-fieldset">
+                    <fieldset id="fields-online_video" class="source-fieldset">
                         <legend>Online Video Details</legend>
 
                         <div class="form-group">
                             <label for="video-author ">Author /
                                 Creator:</label>
-                            <input type="text " id="video-author " name="video-author " placeholder="e.g. John Doe " />
+                            <input type="text" id="video-author" name="video-author" placeholder="e.g. John Doe" />
                         </div>
 
                         <div class="form-group">
                             <label for="video-year ">Year / Full
                                 Date:</label>
-                            <input type="text " id="video-year " name="video-year " placeholder="e.g. 2024 " />
+                            <input type="text" id="video-year" name="video-year" placeholder="e.g. 2024" />
                         </div>
 
                         <div class="form-group">
                             <label for="video-title ">Video Title:</label>
-                            <input type="text " id="video-title " name="video-title "
-                                placeholder="e.g. How to Reference in Harvard Style " />
+                            <input type="text" id="video-title" name="video-title"
+                                placeholder="e.g. How to Reference in Harvard Style" />
                         </div>
 
                         <div class="form-group">
                             <label for="video-platform ">Platform / Website
                                 Name:</label>
-                            <input type="text " id="video-platform " name="video-platform "
-                                placeholder="e.g. YouTube " />
+                            <input type="text" id="video-platform" name="video-platform" placeholder="e.g. YouTube" />
                         </div>
 
                         <div class="form-group">
                             <label for="video-url ">URL:</label>
-                            <input type="url " id="video-url " name="video-url "
+                            <input type="url" id="video-url" name="video-url"
                                 placeholder="https://www.youtube.com/watch?v=..." />
                         </div>
 
                         <div class="form-group">
                             <label for="video-accessed-date ">Date
                                 Accessed:</label>
-                            <input type="text " id="video-accessed-date " name="video-accessed-date "
-                                placeholder="e.g. 12 March 2025 " />
+                            <input type="text" id="video-accessed-date" name="video-accessed-dat "
+                                placeholder="e.g. 12 March 2025" />
                         </div>
                     </fieldset>
 
                     <!-- TODO: Additional fieldsets for other reference types can be added here -->
+
+                    <!--Container for Blog Articles-->
+                    <fieldset id="fields-blog" class="source-fieldset">
+                        <legend>Blog Article Details</legend>
+
+                        <div id="author-container">
+                            <label for="blog-author">Author(s):</label>
+                            <div class="author-row form-group-inline">
+                                <input type="text" id="blog-author-surname" name="blog-author-surname"
+                                    placeholder="Blog Author Surname" />
+                                <input type="text" id="blog-author-firstname" name="blog-author-initials"
+                                    placeholder="Blog Author Initials" />
+                                <button type="button" id="add-author-btn" class="btn-add-author"
+                                    aria-label="Add Another Author">
+                                    + add Author
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="blog-year">Year / Full Date:</label>
+                            <input type="text" id="blog-year" name="blog-year" placeholder="e.g. 2024" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="blog-title">Blog Article Title:</label>
+                            <input type="text" id="blog-title" name="blog-title"
+                                placeholder="e.g. The Future of Education" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="blog-platform">Blog Platform / Website Name:</label>
+                            <input type="text" id="blog-platform" name="blog-platform" placeholder="e.g. Medium" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="blog-url">URL:</label>
+                            <input type="url" id="blog-url" name="blog-url" placeholder="https://medium.com/..." />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="blog-accessed-date">Date Accessed:</label>
+                            <input type="text" id="blog-accessed-date" name="blog-accessed-date"
+                                placeholder="e.g. 12 March 2025" />
+                        </div>
+                    </fieldset>
+
+                    <!--Container for Student Material / Module Manual-->
+                    <fieldset id="fields-student_material" class="source-fieldset">
+                        <legend>Student Material / Module Manual Details</legend>
+
+                        <div id="author-container">
+                            <label for="student-material-author">Author(s):</label>
+                            <div class="author-row form-group-inline">
+                                <input type="text" id="student-material-author-surname"
+                                    name="student-material-author-surname" placeholder="Lecturer/Author" />
+                                <input type="text" id="student-material-author-initials"
+                                    name="student-material-author-initials" placeholder="Initials" />
+                                <button type="button" id="add-author-btn" class="btn-add-author"
+                                    aria-label="Add Another Author">
+                                    + add Author
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-material-year">Year / Full Date:</label>
+                            <input type="text" id="student-material-year" name="student-material-year"
+                                placeholder="e.g. 2024" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-material-title">Title of Material:</label>
+                            <input type="text" id="student-material-title" name="student-material-title"
+                                placeholder="e.g. Module Manual for Academic Writing" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-material-institution">Institution / College Name:</label>
+                            <input type="text" id="student-material-institution" name="student-material-institution"
+                                placeholder="e.g. Independent Institute of Education (IIE)" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-material-url">URL (if applicable):</label>
+                            <input type="url" id="student-material-url" name="student-material-url"
+                                placeholder="https://..." />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="student-material-accessed-date">Date Accessed:</label>
+                            <input type="text" id="student-material-accessed-date" name="student-material-accessed-date"
+                                placeholder="e.g. 12 March 2025" />
+                        </div>
+
+                    </fieldset>
 
                     <div style="margin-top: 1.5rem">
                         <button type="submit " id="generate-btn " class="btn-submit">
@@ -323,7 +523,7 @@
                 </form>
             </div>
 
-            <div id="output-container " class="output-card" style="margin-top: 2rem">
+            <div id="output-container" class="output-card" style="margin-top: 2rem">
                 <h3>Compiled Reference Output</h3>
 
                 <div class="output-box">
@@ -353,8 +553,7 @@
 
     <footer style="text-align: center; padding: 1rem">
         <p>
-            &copy; 2026 IIE Reference Generator ST10502284. All rights
-            reserved.
+            &copy; 2026 ST10502284. IE Reference Generator. Built in accordance with IIE Harvard Anglia Referencing Manual. All rights reserved.</p>
         </p>
     </footer>
 </body>

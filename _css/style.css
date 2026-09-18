@@ -1,0 +1,217 @@
+ /* ==========================================
+        DEFAULT STYLES
+   ========================================== */
+ * {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+
+ }
+
+ html {
+
+     font-size: 100%;
+ }
+
+ img {
+     max-width: 100%;
+     height: auto;
+     display: block;
+ }
+
+ body {
+
+     background-color: #001100;
+     color: #CCFFCC;
+     font-family: monospace, Consolas, "Courier New", monospace;
+     line-height: 1.6;
+ }
+
+ input[type="text"],
+ input[type="number"],
+ input[type="url"],
+ input[type="date"],
+ select,
+ button {
+     font-family: inherit;
+     font-size: 0.95rem;
+     border-radius: 4px;
+ }
+
+ /* ==========================================
+        FORM CONTROLS & INPUTS
+   ========================================== */
+ input[type="text"],
+ input[type="number"],
+ input[type="url"],
+ input[type="date"],
+ select {
+     padding: 0.4rem 0.6rem;
+     border: 1px solid #1B4D1B;
+     background-color: #051A05;
+     color: #CCFFCC;
+     min-width: 140px;
+     margin-bottom: 0.5rem;
+     width: 100%;
+ }
+
+ input:focus,
+ select:focus {
+     outline: 1px solid #33FF33;
+ }
+
+ button {
+     padding: 0.4rem 0.8rem;
+     border: 1px solid #33FF33;
+     border-radius: 4px;
+     background-color: #1B4D1B;
+     color: #CCFFCC;
+     cursor: pointer;
+     transition: background-color 0.3s ease, transform 0.3s ease;
+
+ }
+
+ button:hover {
+     background-color: #0056b3;
+     color: #FFFFFF;
+ }
+
+ .menu-toggle span {
+     display: inline-block;
+     transition: transform 0.3s ease;
+ }
+
+ .menu-toggle:hover span {
+     transform: scale(1.2);
+ }
+
+ /* ==========================================
+        HEADER & NAVIGATION + SIDEBAR
+   ========================================== */
+ .navigation-bar {
+     background-color: #0D2B0D;
+ }
+
+ nav {
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: space-between;
+     align-items: center;
+     gap: 0.5rem 1rem;
+     padding: 1rem;
+ }
+
+ #header-title h1 {
+
+     font-size: clamp(1rem, 4vw, 1.5rem);
+ }
+
+
+ nav a {
+     text-decoration: none;
+     color: #88FF88;
+     transition: transform 0.3s ease;
+ }
+
+ nav a:hover {
+     transform: scale(1.05);
+ }
+
+ /* .nav-logo img {
+     display: block;
+     padding-left: 1rem;
+     height: auto;
+     max-height: 50px;
+     width: auto;
+     max-width: 100px;
+     transition: transform 0.3s ease;
+
+
+ } */
+
+ .nav-logo img:hover {
+     transform: scale(1.05);
+ }
+
+
+ .side-navigation ul {
+
+     list-style-type: none;
+     padding: 0;
+     margin: 0;
+ }
+
+ .side-nav-link {
+     /*display type required for transforming*/
+     display: flex;
+     align-items: center;
+     gap: 0.5rem;
+     text-decoration: none;
+     color: #88FF88;
+     padding: 0.1rem 0;
+ }
+
+ .side-nav-link:hover {
+     transform: scale(1.05);
+ }
+
+ /* ==========================================
+        CONTAINERS
+   ========================================== */
+
+ .generator-container {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+ }
+
+ .autofetch-container {}
+
+ fieldset.source-fieldset {
+     border: 1px solid #1B4D1B;
+     padding: 1rem;
+     margin-bottom: 1rem;
+     font-family: monospace;
+     border-radius: 4px;
+
+ }
+
+ fieldset legend {
+     color: #33FF33;
+     font-weight: bold;
+     font-size: 1.1rem;
+     padding: 0 0.5rem;
+ }
+
+ .form-group {
+     display: flex;
+     flex-direction: column;
+     margin-bottom: 0.75rem;
+ }
+
+ .form-group label {
+     margin-bottom: 0.25rem;
+     font-size: 0.95rem;
+     font-weight: bold;
+ }
+
+ .form-group.inline {
+
+     display: flex;
+     gap: 0.5rem;
+     flex-wrap: wrap;
+ }
+
+ .output-card {
+     background-color: #0D2B0D;
+     border: 1px solid #1B4D1B;
+     padding: 1rem;
+     border-radius: 4px;
+     margin-top: 2rem;
+ }
+
+ .output-box {
+     border: 1px dashed #33FF33;
+     padding: 0.5rem;
+     border-radius: 4px;
+ }

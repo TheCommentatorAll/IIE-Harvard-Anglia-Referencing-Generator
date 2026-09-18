@@ -7,86 +7,12 @@
     <meta name="author" content="Nicholas Morris ST10502284">
     <meta name="description" content="About the IIE Reference Generator">
     <title>About | IIE Reference Generator</title>
+    <link rel="stylesheet" href="_css/style.css" />
+
 </head>
 
 <body>
-    <style>
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-        }
 
-        button {
-            padding: 0.2rem 0.5rem;
-            border: none;
-            border-radius: 4px;
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            text-decoration: none;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #007BFF;
-            transition: transform 0.3s ease;
-        }
-
-        nav a:hover {
-            transform: scale(1.05);
-        }
-
-        .menu-toggle span {
-            display: inline-block;
-            transition: transform 0.3 ease;
-        }
-
-        .menu-toggle:hover span {
-            transform: scale(1.2);
-        }
-
-         .side-navigation ul {
-
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .side-nav-link{
-            /*display type required for transforming*/
-            display: flex;
-            transition: transform 0.3 ease;
-        }
-
-        .side-nav-link:hover{
-            transform: scale(1.05);
-        }
-
-        img {
-            max-height: 50px;
-            padding-left: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        img:hover {
-            transform: scale(1.05);
-        }
-    </style>
-    
     <header>
         <!-- Navigation Bar -->
         <nav class="navigation-bar">
@@ -95,12 +21,13 @@
                 <span>&#9776;</span>
             </button>
             <div>
-                <a href="index.html"><img src="images/logo.png" alt="IIE Reference Generator Logo"
-                        style="height: 100%; max-width: 100px;">
+                <a class="nav-logo" href="index.html"><img src="images/Logo-notext.png"
+                        alt="IIE Reference Generator Logo">
+                    Home
                 </a>
             </div>
-            <div style="flex-grow: 1; padding-left: 1rem; text-align: center" id="header-title">
-                <h1 style="margin: 0; font-family: monospace">IIE Reference Generator</h1>
+            <div id="header-title">
+                <h1>IIE Reference Generator</h1>
             </div>
             <div id="navigation" class="navigation" style="display: flex; gap: 1rem">
                 <a href="guide.html" class="nav-link">guide.js</a>
@@ -113,7 +40,7 @@
     <hr style="margin: 0; border: none; border-top: 1px solid #ccc;" />
     <br>
 
-     <aside id="side-menu" class="side-menu-container" aria-label="Sidebar Navigation">
+    <aside id="side-menu" class="side-menu-container" aria-label="Sidebar Navigation">
         <button id="menu-close" class="menu-toggle" aria-label="Close Navigation Menu">
             <span>&times;</span>
         </button>
@@ -151,12 +78,13 @@
     <br>
 
     <h1>About the IIE Reference Generator</h1>
-    
+
 
     <section id="about-hero">
         <h1>// About the Generator</h1>
-        <p>This is a simple reference generator for IIE students. Whereby they can easily create Harvard-style references
-        for their assignments.</p>
+        <p>This is a simple reference generator for IIE students. Whereby they can easily create Harvard-style
+            references
+            for their assignments.</p>
         <p>A precision-focused, developer-styled tool for accurate IIE Harvard Anglia academic referencing.</p>
     </section>
 

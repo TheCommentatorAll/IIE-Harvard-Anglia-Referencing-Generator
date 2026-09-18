@@ -7,87 +7,11 @@
     <meta name="description" content="User Guide & Reference Rules for IIE Harvard Anglia Referencing Standard">
     <meta name="author" content="Nicholas Morris ST10502284">
     <title>User Manual & Reference Guide | IIE Harvard Generator</title>
+    <link rel="stylesheet" href="_css/style.css" />
+
 </head>
 
 <body>
-
-    <style>
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-        }
-
-        button {
-            padding: 0.2rem 0.5rem;
-            border: none;
-            border-radius: 4px;
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            text-decoration: none;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #007BFF;
-            transition: transform 0.3s ease;
-        }
-
-        nav a:hover {
-            transform: scale(1.05);
-        }
-
-        .menu-toggle span {
-            display: inline-block;
-            transition: transform 0.3 ease;
-        }
-
-        .menu-toggle:hover span {
-            transform: scale(1.2);
-        }
-
-        .side-navigation ul {
-
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .side-nav-link {
-            /*display type required for transforming*/
-            display: flex;
-            transition: transform 0.3 ease;
-        }
-
-        .side-nav-link:hover {
-            transform: scale(1.05);
-        }
-
-        img {
-            max-height: 50px;
-            padding-left: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        img:hover {
-            transform: scale(1.05);
-
-        }
-    </style>
 
     <header>
         <!-- Navigation Bar -->
@@ -97,12 +21,11 @@
                 <span>&#9776;</span>
             </button>
             <div>
-                <a href="index.html"><img src="images/logo.png" alt="IIE Reference Generator Logo"
-                        style="height: 100%; max-width: 100px;">
+                <a class="nav-logo" href="index.html"><img src="images/Logo-notext.png" alt="IIE Reference Generator Logo"> Home
                 </a>
             </div>
-            <div style="flex-grow: 1; padding-left: 1rem; text-align: center" id="header-title">
-                <h1 style="margin: 0; font-family: monospace">IIE Reference Generator</h1>
+            <div>
+                <h1>IIE Reference Generator</h1>
             </div>
             <div id="navigation" class="navigation" style="display: flex; gap: 1rem">
                 <a href="guide.html" class="nav-link">guide.js</a>
@@ -171,14 +94,14 @@
                         Video) to load the custom input fields.</p>
                 </div>
 
-                <div>
+                <div class="how-to">
                     <span>02</span>
                     <h4>Auto-Fetch or Fill Fields</h4>
                     <p>Paste a web address to auto-fetch metadata, or manually type details (Authors, Publication Year,
                         Title, Publisher/URL).</p>
                 </div>
 
-                <div>
+                <div class="how-to">
                     <span>03</span>
                     <h4>Copy Citations</h4>
                     <p>View the live output in the preview window. Click <code>[COPY IN-TEXT]</code> or <code>[COPY
@@ -241,7 +164,8 @@
                         <em>England's Whetstone named FEE's first Blinking Lights Award recipient</em>. [online]
                         Available at:
                         &lt;https://fee.org/resources/englands-whetstone-named-fees-first-blinking-lights-award-recipient/&gt;
-                        [Accessed 16 July 2014].</p>
+                        [Accessed 16 July 2014].
+                    </p>
                 </div>
             </article>
 
@@ -294,7 +218,8 @@
                         Lecture Notes]. Place: Publisher / Portal.</code>
                     <p class="example-box"><strong>Example:</strong> The Independent Institute of Education (IIE), 2025.
                         <em>Academic Literacy (ACLI5111) Module Outline</em>. [Module guide]. Johannesburg: The
-                        Independent Institute of Education. </p>
+                        Independent Institute of Education.
+                    </p>
                 </div>
             </article>
 

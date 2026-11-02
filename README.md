@@ -3,6 +3,21 @@ A website which generates reference lists based on input fields
 
 # Changelog
 
+## [1.1.0] — 2026-11-02 — UI Polish, Accessibility & Robust Metadata Fetching
+
+### Added
+- **Animated Loading State**: Added smooth bouncing dot animations (`.loading-dots`) to the "Fetch Metadata" button during active API requests to provide clear visual feedback.
+- **Robust URL Slug Fallback**: Implemented an automated fallback scraper for general websites and news articles (such as eNCA) that extracts readable titles directly from URL path slugs if deep server-side scraping is blocked by security firewalls.
+
+### Fixed
+- **News Article Scraping & Routing**: Resolved an issue where news and article URLs were incorrectly triggering video-parsing paths or failing silently due to CORS/Cloudflare restrictions.
+- **Strict Semantic HTML Headings**: Corrected heading hierarchies across all pages (`about.html`, `contact.html`, `guide.html`, and `index.html`), ensuring proper descending order (`<h1>` $\rightarrow$ `<h2>` $\rightarrow$ `<h3>`) and eliminating duplicate `<h1>` tags for accessibility and SEO compliance.
+- **Jekyll Folder Processing (404 Errors)**: Renamed directories from `_css`/`_js` to `css`/`js` to bypass GitHub Pages' default Jekyll underscore filtering, completely resolving live site 404 stylesheet and script errors.
+
+### Changed
+- **Enhanced Button Loading Feedback**: Updated script logic to swap button inner HTML dynamically during fetches, displaying an animated loading indicator before reverting to original text in a safe `try...finally` block.
+- **Refined URL Detection Logic**: Tightened `detectSourceTypeFromUrl()` to strictly isolate real video streaming domains (YouTube, TikTok, Instagram) so general news and blog URLs correctly route to standard website metadata handlers.
+
 ## [Unreleased] — CSS unification, logo fix & responsive design
 
 ### Added

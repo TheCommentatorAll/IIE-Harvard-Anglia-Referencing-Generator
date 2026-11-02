@@ -3,6 +3,17 @@ A website which generates reference lists based on input fields
 
 # Changelog
 
+## [1.3.0] — 2026-11-02 — Zero-Backend Contact Form & AJAX Submission
+
+### Added
+- **Formspree Endpoint Integration**: Configured `contact.html` form action to point to a zero-backend Formspree endpoint (`https://formspree.io/f/your_form_id`) for seamless client-side email delivery without requiring dedicated backend server infrastructure.
+- **Client-Side AJAX Form Submission**: Implemented an asynchronous `fetch()` event listener in `js/script.js` to process contact form submissions in the background without triggering full-page browser reloads.
+- **Dynamic On-Screen Feedback**: Added real-time user notification handling via a `#form-status` element in `contact.html` to display progress (`[SENDING...]`), success notifications, and network error messages.
+- **Automatic Form Reset**: Added logic to automatically clear form fields upon successful message dispatch.
+
+### Changed
+- **Zero-Cost Email Workflow**: Selected a zero-backend architecture relying on Formspree's free tier for instant developer inbox notifications alongside client-side terminal feedback.
+
 ## [1.2.0] — 2026-11-01 — JavaScript Integration, ID Alignment & Citation Engine Fixes
 
 ### Added

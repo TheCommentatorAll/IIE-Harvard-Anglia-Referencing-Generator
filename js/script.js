@@ -97,15 +97,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const clearBtn = document.getElementById("clear-button");
 
     function detectSourceTypeFromUrl(url) {
+        // 1. Check for Book databases
         if (url.includes("openlibrary.org/books/") || url.includes("books.google.com")) {
             return "book";
-        } else if (url.includes("youtube.com/watch") || url.includes("youtu.be/")) {
+        }
+        // 2. Strict check for Video Platforms (avoid matching words like "/videos/" in news sites)
+        else if (
+            url.includes("youtube.com/watch") ||
+            url.includes("youtu.be/") ||
+            url.includes("tiktok.com") ||
+            url.includes("instagram.com")
+        ) {
             return "online_video";
-        } else if (url.includes("medium.com") || url.includes("substack.com")) {
+        }
+        // 3. Check for Blogs
+        else if (url.includes("medium.com") || url.includes("substack.com")) {
             return "blog";
-        } else if (url.includes("tiktok.com") || url.includes("instagram.com")) {
-            return "online_video";
-        } else {
+        }
+        // 4. Default fallback for news sites (like eNCA, BBC, News24) and general web pages
+        else {
             return "website";
         }
     }
@@ -223,8 +233,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             autofetchBtn.disabled = true;
-            const originalText = autofetchBtn.textContent;
-            autofetchBtn.textContent = "Fetching...";
+            const originalHTML = autofetchBtn.innerHTML;
+            
+            // Set button content with animated dots HTML structure
+            autofetchBtn.innerHTML = `Fetching Metadata<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>`;
 
             // Helper function to safely populate input values without crashing
             try {
@@ -283,43 +295,38 @@ document.addEventListener("DOMContentLoaded", () => {
                             alert("Google Books link detected and form switched to Book mode. Please fill in the book details manually.");
                         }
                     }
-                }
-                else {
-                    // 3. Handle Videos, Blogs, and General Websites
+                } else {
+                    // 3. Handle General Websites & News Articles (with fallback extraction)
                     const detectedType = detectSourceTypeFromUrl(url);
                     referenceTypeSelect.value = detectedType;
                     referenceTypeSelect.dispatchEvent(new Event("change"));
 
-                    if (detectedType === "online_video") {
-                        const videoData = await fetchVideoMetadata(url);
-                        if (videoData) {
-                            setVal("video-title", videoData.title);
-                            setVal("video-author", videoData.author);
-                            setVal("video-platform", videoData.platform);
-                            setVal("video-url", url);
-                            setVal("video-year", new Date().getFullYear());
-                            alert("Video metadata successfully fetched!");
-                        } else {
-                            alert("Could not automatically fetch video details. Please fill them in manually.");
-                        }
+                    const metadata = await fetchMetadata(url);
+                    if (metadata && metadata.title) {
+                        setVal("web-page-title", metadata.title);
+                        setVal("web-site-title", metadata.publisher || new URL(url).hostname);
+                        setVal("web-author", metadata.author || "Anon.");
+                        setVal("web-year", metadata.date || new Date().getFullYear());
+                        setVal("web-url", url);
+                        alert("Website metadata successfully fetched!");
                     } else {
-                        const metadata = await fetchMetadata(url);
-                        if (metadata) {
-                            if (detectedType === "blog") {
-                                setVal("blog-title", metadata.title);
-                                setVal("blog-platform", metadata.publisher);
-                                setVal("blog-year", metadata.date);
-                                setVal("blog-url", url);
-                            } else {
-                                setVal("web-page-title", metadata.title);
-                                setVal("web-site-title", metadata.publisher);
-                                setVal("web-author", metadata.author);
-                                setVal("web-year", metadata.date);
-                                setVal("web-url", url);
-                            }
-                            alert("Metadata successfully fetched!");
-                        } else {
-                            alert("Could not fetch site metadata due to security restrictions. Please enter the details manually.");
+                        // FALLBACK: Extract title from URL slug if security blocks Microlink scraping
+                        try {
+                            const urlObj = new URL(url);
+                            const pathSegments = urlObj.pathname.split('/').filter(seg => seg.length > 0);
+                            const lastSegment = pathSegments[pathSegments.length - 1] || "Article Title";
+                            const readableTitle = decodeURIComponent(lastSegment).replace(/[-_]/g, ' ');
+                            const capitalizedTitle = readableTitle.charAt(0).toUpperCase() + readableTitle.slice(1);
+
+                            setVal("web-page-title", capitalizedTitle);
+                            setVal("web-site-title", urlObj.hostname.replace('www.', ''));
+                            setVal("web-author", "Anon.");
+                            setVal("web-year", new Date().getFullYear());
+                            setVal("web-url", url);
+
+                            alert("Site security restricted deep scraping. Title populated from link slug—please review details.");
+                        } catch (e) {
+                            alert("Could not fetch site metadata due to security restrictions. Please enter details manually.");
                         }
                     }
                 }
@@ -328,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("An error occurred while fetching metadata. Please check the console for details.");
             } finally {
                 autofetchBtn.disabled = false;
-                autofetchBtn.textContent = originalText;
+                autofetchBtn.textContent = originalHTML; // Restore original button content
             }
         });
     }

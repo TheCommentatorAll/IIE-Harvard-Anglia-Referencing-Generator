@@ -122,9 +122,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function fetchVideoMetadata(url) {
         try {
+            // 1. YouTube oEmbed API for pristine titles and channel names
             if (url.includes("youtube.com") || url.includes("youtu.be")) {
                 const oEmbedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`;
                 const response = await fetch(oEmbedUrl);
+
                 if (response.ok) {
                     const data = await response.json();
                     return {
@@ -135,18 +137,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
+            // 2. Fallback to Microlink API for other video platforms (Vimeo, TED, etc.)
             const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
             const result = await response.json();
+
             if (result.status === "success") {
-                let platformName = "Online Platform";
-                if (url.includes("tiktok.com")) platformName = "TikTok";
-                if (url.includes("instagram.com")) platformName = "Instagram";
+                const urlObj = new URL(url);
+                let platformName = result.data.publisher || urlObj.hostname.replace('www.', '');
+                platformName = platformName.charAt(0).toUpperCase() + platformName.slice(1);
+
                 return {
                     title: result.data.title || "",
-                    author: result.data.author || result.data.publisher || "",
-                    platform: result.data.publisher || platformName
+                    author: result.data.author || result.data.publisher || "Anon.",
+                    platform: platformName
                 };
             }
+
             throw new Error("Failed to fetch video metadata.");
         } catch (error) {
             console.error("Video Fetch Error:", error);
@@ -301,32 +307,51 @@ document.addEventListener("DOMContentLoaded", () => {
                     referenceTypeSelect.value = detectedType;
                     referenceTypeSelect.dispatchEvent(new Event("change"));
 
-                    const metadata = await fetchMetadata(url);
-                    if (metadata && metadata.title) {
-                        setVal("web-page-title", metadata.title);
-                        setVal("web-site-title", metadata.publisher || new URL(url).hostname);
-                        setVal("web-author", metadata.author || "Anon.");
-                        setVal("web-year", metadata.date || new Date().getFullYear());
-                        setVal("web-url", url);
-                        alert("Website metadata successfully fetched!");
+                    if (detectedType === "online_video") {
+                        // Clear fields first so old data doesn't persist on failure
+                        document.getElementById("video-title").value = "";
+                        document.getElementById("video-author").value = "";
+                        document.getElementById("video-url").value = url;
+                        document.getElementById("video-year").value = new Date().getFullYear();
+
+                        const videoData = await fetchVideoMetadata(url);
+
+                        if (videoData && videoData.title) {
+                            document.getElementById("video-title").value = videoData.title;
+                            document.getElementById("video-author").value = videoData.author;
+                            document.getElementById("video-platform").value = videoData.platform;
+                            alert("Video metadata successfully fetched!");
+                        } else {
+                            alert("Could not automatically fetch video details. Please fill them in manually.");
+                        }
                     } else {
-                        // FALLBACK: Extract title from URL slug if security blocks Microlink scraping
-                        try {
-                            const urlObj = new URL(url);
-                            const pathSegments = urlObj.pathname.split('/').filter(seg => seg.length > 0);
-                            const lastSegment = pathSegments[pathSegments.length - 1] || "Article Title";
-                            const readableTitle = decodeURIComponent(lastSegment).replace(/[-_]/g, ' ');
-                            const capitalizedTitle = readableTitle.charAt(0).toUpperCase() + readableTitle.slice(1);
-
-                            setVal("web-page-title", capitalizedTitle);
-                            setVal("web-site-title", urlObj.hostname.replace('www.', ''));
-                            setVal("web-author", "Anon.");
-                            setVal("web-year", new Date().getFullYear());
+                        const metadata = await fetchMetadata(url);
+                        if (metadata && metadata.title) {
+                            setVal("web-page-title", metadata.title);
+                            setVal("web-site-title", metadata.publisher || new URL(url).hostname);
+                            setVal("web-author", metadata.author || "Anon.");
+                            setVal("web-year", metadata.date || new Date().getFullYear());
                             setVal("web-url", url);
+                            alert("Website metadata successfully fetched!");
+                        } else {
+                            // FALLBACK: Extract title from URL slug if security blocks Microlink scraping
+                            try {
+                                const urlObj = new URL(url);
+                                const pathSegments = urlObj.pathname.split('/').filter(seg => seg.length > 0);
+                                const lastSegment = pathSegments[pathSegments.length - 1] || "Article Title";
+                                const readableTitle = decodeURIComponent(lastSegment).replace(/[-_]/g, ' ');
+                                const capitalizedTitle = readableTitle.charAt(0).toUpperCase() + readableTitle.slice(1);
 
-                            alert("Site security restricted deep scraping. Title populated from link slug—please review details.");
-                        } catch (e) {
-                            alert("Could not fetch site metadata due to security restrictions. Please enter details manually.");
+                                setVal("web-page-title", capitalizedTitle);
+                                setVal("web-site-title", urlObj.hostname.replace('www.', ''));
+                                setVal("web-author", "Anon.");
+                                setVal("web-year", new Date().getFullYear());
+                                setVal("web-url", url);
+
+                                alert("Site security restricted deep scraping. Title populated from link slug—please review details.");
+                            } catch (e) {
+                                alert("Could not fetch site metadata due to security restrictions. Please enter details manually.");
+                            }
                         }
                     }
                 }

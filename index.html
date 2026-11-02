@@ -5,8 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Nicholas Morris ST10502284" />
-    <meta name="description" content="IIE Harvard Anglia Reference Generator" />
-    <title>Home | IIE Reference Generator</title>
+    <meta name="description"
+        content="Free automated IIE Harvard Anglia referencing tool for students. Generate accurate in-text citations and reference list entries for books, journals, and websites instantly.">
+    <meta name="keywords"
+        content="IIE reference generator, Harvard Anglia referencing, IIE Harvard style, citation generator, Rosebank International referencing, academic citation tool">
+    <title>Home | IIE Harvard Reference Generator | Automated Citation Tool</title>
     <link rel="stylesheet" href="_css/style.css" />
 </head>
 
@@ -29,7 +32,7 @@
                 <div id="header-title">
                     <h1>IIE Reference Generator</h1>
                 </div>
-                <div id="navigation" class="navigation" style="display: flex; gap: 1rem">
+                <div id="navigation" class="navigation">
                     <a href="guide.html" class="nav-link">guide.js</a>
                     <a href="about.html" class="nav-link">about.html</a>
                     <a href="contact.html" class="nav-link">contact.md</a>
@@ -46,27 +49,27 @@
                 <span>&times;</span>
             </button>
             <div class="side-menu-header">
-                <h2>Explorer</h2>
+                <h1>Explorer</h1>
                 <nav class="side-navigation">
                     <ul>
                         <li>
                             <a href="https://www.rosebankcollege.co.za/" class="side-nav-link" target="_blank"
                                 rel="noopener noreferrer">
                                 <span class="icon">🌍</span>
-                                rosebank_college.db
+                                rosebank_international
                             </a>
                         </li>
                         <li>
                             <a href="https://www.iie.ac.za/" class="side-nav-link" target="_blank"
                                 rel="noopener noreferrer">
                                 <span class="icon">🏫</span>
-                                iie.db</a>
+                                iie</a>
                         </li>
                         <li>
                             <a href="https://github.com/TheCommentatorAll/IIE-Harvard-Anglia-Referencing-Generator"
                                 class="side-nav-link" target="_blank" rel="noopener noreferrer">
                                 <span class="icon">💻</span>
-                                github_repo.bat
+                                github_repo
                             </a>
                         </li>
                     </ul>
@@ -83,7 +86,7 @@
         <main>
             <div class="generator-container">
                 <section id="autofetch-container" class="autofetch-container" aria-labelledby="autofetch-heading">
-                    <h3 id="autofetch-heading">Autofetch</h3>
+                    <h2 id="autofetch-heading">Autofetch</h2>
                     <label for="url-input">Enter Source Link or
                         Identifier:</label>
                     <div>
@@ -98,6 +101,12 @@
                         <button id="clear-button" aria-label="Clear Input Field">
                             Clear
                         </button>
+                    </div>
+                    <div id="progress-bar-container"
+                        style="width: 100%; background-color: #051A05; height: 4px; margin-top: 0.5rem; display: none;">
+                        <div id="progress-bar-fill"
+                            style="width: 0%; height: 100%; background-color: #33FF33; transition: width 0.3s ease;">
+                        </div>
                     </div>
                 </section>
 

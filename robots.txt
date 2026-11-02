@@ -1,0 +1,7 @@
+# robots.txt for IIE Reference Generator
+# Allow all search engine crawlers to access and index all pages
+
+User-agent: *
+Allow: /
+
+Sitemap: https://thecommentatorall.github.io/IIE-Harvard-Anglia-Referencing-Generator/sitemap.xml

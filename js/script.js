@@ -6,7 +6,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // ------------------------------------------------------------------
-    // 1. NAVIGATION & SIDEBAR LOGIC
+    // NAVIGATION & SIDEBAR LOGIC
     // ------------------------------------------------------------------
     const menuToggle = document.getElementById("menu-toggle");
     const menuClose = document.getElementById("menu-close");
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ------------------------------------------------------------------
-    // 2. REFERENCE TYPE TOGGLING (SOURCE SELECTOR)
+    // REFERENCE TYPE TOGGLING (SOURCE SELECTOR)
     // ------------------------------------------------------------------
     const referenceTypeSelect = document.getElementById("reference-type");
     const fieldsets = document.querySelectorAll(".source-fieldset");
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ------------------------------------------------------------------
-    // 3. DYNAMIC AUTHOR ADDITION / REMOVAL
+    // DYNAMIC AUTHOR ADDITION / REMOVAL
     // ------------------------------------------------------------------
     const authorContainers = [
         { btnId: "book-add-author-btn", containerId: "book-author-container", prefix: "book-author" },
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ------------------------------------------------------------------
-    // 4. AUTOFETCH & METADATA API INTEGRATION
+    // AUTOFETCH & METADATA API INTEGRATION
     // ------------------------------------------------------------------
     const urlInput = document.getElementById("url-input");
     const autofetchBtn = document.getElementById("autofetch-button");
@@ -359,7 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ------------------------------------------------------------------
-    // 5. CITATION GENERATION ENGINE (IIE HARVARD ANGLIA RULES)
+    // CITATION GENERATION ENGINE (IIE HARVARD ANGLIA RULES)
     // ------------------------------------------------------------------
     const referenceForm = document.getElementById("reference-form");
 
@@ -567,7 +567,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ------------------------------------------------------------------
-    // 6. COPY TO CLIPBOARD BUTTONS
+    // COPY TO CLIPBOARD BUTTONS
     // ------------------------------------------------------------------
     const copyButtons = document.querySelectorAll(".btn-copy");
 
@@ -597,5 +597,57 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
+
+    // ------------------------------------------------------------------
+    // CONTACT / COMPLAINT FORM HANDLING (FORMSPREE AJAX)
+    // ------------------------------------------------------------------
+    const contactForm = document.getElementById("contact-form");
+    const formStatus = document.getElementById("form-status");
+
+    if (contactForm) {
+        contactForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById("submit-btn");
+            const originalBtnText = submitBtn.textContent;
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = "[SENDING...]";
+            if (formStatus) formStatus.textContent = "";
+
+            const formData = new FormData(contactForm);
+
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'Accept': 'json'
+                    }
+                });
+
+                if (response.ok) {
+                    if (formStatus) {
+                        formStatus.style.color = "#33FF33";
+                        formStatus.textContent = "Success! Your message has been sent. We will be in contact shortly.";
+                    }
+                    contactForm.reset();
+                } else {
+                    const data = await response.json();
+                    if (formStatus) {
+                        formStatus.style.color = "#FF3333";
+                        formStatus.textContent = data.error || "Oops! There was a problem submitting your form.";
+                    }
+                }
+            } catch (error) {
+                if (formStatus) {
+                    formStatus.style.color = "#FF3333";
+                    formStatus.textContent = "Network error. Please check your connection and try again.";
+                }
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        });
+    }
 
 });

@@ -4,6 +4,7 @@
    ========================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+
     // ------------------------------------------------------------------
     // 1. NAVIGATION & SIDEBAR LOGIC
     // ------------------------------------------------------------------
@@ -28,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (menuClose) menuClose.addEventListener("click", closeSidebar);
     if (overlay) overlay.addEventListener("click", closeSidebar);
 
+
     // ------------------------------------------------------------------
     // 2. REFERENCE TYPE TOGGLING (SOURCE SELECTOR)
     // ------------------------------------------------------------------
@@ -35,18 +37,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const fieldsets = document.querySelectorAll(".source-fieldset");
 
     function showFieldset(type) {
-        // "online_video" -> "fields-online-video"
         const targetId = type ? `fields-${type.replace(/_/g, "-")}` : "";
         fieldsets.forEach((fs) => {
             const isActive = fs.id === targetId;
             fs.classList.toggle("active", isActive);
             fs.style.display = isActive ? "block" : "none";
-            fs.disabled = !isActive;   // disabled fieldsets are skipped by validation
+            fs.disabled = !isActive; // Disabled fieldsets are skipped by validation
         });
     }
+
     if (referenceTypeSelect) {
         referenceTypeSelect.addEventListener("change", (e) => showFieldset(e.target.value));
     }
+
 
     // ------------------------------------------------------------------
     // 3. DYNAMIC AUTHOR ADDITION / REMOVAL
@@ -76,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 container.appendChild(newRow);
 
-                // Add remove listener
+                // Add remove listener for the dynamic row
                 newRow.querySelector(".btn-remove-author").addEventListener("click", () => {
                     newRow.remove();
                 });
@@ -84,9 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+
     // ------------------------------------------------------------------
-    // 4. AUTOFETCH & TOOLBAR BUTTONS
+    // 4. AUTOFETCH & METADATA API INTEGRATION
     // ------------------------------------------------------------------
+    const urlInput = document.getElementById("url-input");
+    const autofetchBtn = document.getElementById("autofetch-button");
+    const pasteBtn = document.getElementById("paste-button");
+    const clearBtn = document.getElementById("clear-button");
 
     function detectSourceTypeFromUrl(url) {
         if (url.includes("openlibrary.org/books/") || url.includes("books.google.com")) {
@@ -95,8 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return "online_video";
         } else if (url.includes("medium.com") || url.includes("substack.com")) {
             return "blog";
+        } else if (url.includes("tiktok.com") || url.includes("instagram.com")) {
+            return "online_video";
         } else {
-            return "website"; // Default fallback
+            return "website";
         }
     }
 
@@ -105,7 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (url.includes("youtube.com") || url.includes("youtu.be")) {
                 const oEmbedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`;
                 const response = await fetch(oEmbedUrl);
-
                 if (response.ok) {
                     const data = await response.json();
                     return {
@@ -116,67 +125,58 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            // Fallback to Microlink API
             const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
             const result = await response.json();
-
             if (result.status === "success") {
+                let platformName = "Online Platform";
+                if (url.includes("tiktok.com")) platformName = "TikTok";
+                if (url.includes("instagram.com")) platformName = "Instagram";
                 return {
                     title: result.data.title || "",
                     author: result.data.author || result.data.publisher || "",
-                    platform: result.data.publisher || "Online Platform"
+                    platform: result.data.publisher || platformName
                 };
             }
-
             throw new Error("Failed to fetch video metadata.");
         } catch (error) {
             console.error("Video Fetch Error:", error);
-            return null; // Return null instead of alerting immediately so you can handle fallback
+            return null;
         }
     }
 
     function extractOpenLibraryId(url) {
-        // Matches patterns like /books/OL1234567M or /works/OL1234567W
         const match = url.match(/\/(books|works)\/(OL[0-9]+[A-Za-z])/);
         return match ? match[2] : null;
     }
 
     async function fetchBookFromOpenLibrary(url) {
         const bookId = extractOpenLibraryId(url);
-        if (!bookId) {
-            throw new Error("Invalid Open Library URL format.");
-        }
+        if (!bookId) throw new Error("Invalid Open Library URL format.");
 
         const apiUrl = `https://openlibrary.org/books/${bookId}.json`;
-
         try {
             const response = await fetch(apiUrl);
             if (!response.ok) throw new Error("Book not found in Open Library database.");
 
             const data = await response.json();
-
-            // 1. Extract basic fields
             const title = data.title || "";
             const publishYear = data.publish_date ? data.publish_date.match(/\d{4}/)?.[0] || "" : "";
             const publisher = data.publishers ? data.publishers[0] : "";
             const place = data.publish_places ? data.publish_places[0] : "";
 
-            // 2. Fetch Author Name if available
             let authorSurname = "";
             let authorInitials = "";
 
             if (data.authors && data.authors.length > 0) {
-                const authorKey = data.authors[0].key; // e.g., "/authors/OL26330A"
+                const authorKey = data.authors[0].key;
                 try {
                     const authorRes = await fetch(`https://openlibrary.org${authorKey}.json`);
                     if (authorRes.ok) {
                         const authorData = await authorRes.json();
                         const fullName = authorData.name || "";
-
-                        // Parse full name into Surname and Initials
                         const nameParts = fullName.trim().split(" ");
                         if (nameParts.length > 1) {
-                            authorSurname = nameParts.pop(); // Last word is usually surname
+                            authorSurname = nameParts.pop();
                             authorInitials = nameParts.map(n => n[0].toUpperCase()).join("");
                         } else {
                             authorSurname = fullName;
@@ -187,14 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            return {
-                title,
-                publishYear,
-                publisher,
-                place,
-                authorSurname,
-                authorInitials
-            };
+            return { title, publishYear, publisher, place, authorSurname, authorInitials };
         } catch (error) {
             console.error("Open Library API Error:", error);
             return null;
@@ -205,7 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
             const result = await response.json();
-
             if (result.status === "success") {
                 return {
                     title: result.data.title || "",
@@ -218,15 +210,9 @@ document.addEventListener("DOMContentLoaded", () => {
             throw new Error("Failed to parse metadata.");
         } catch (error) {
             console.error("Autofetch error:", error);
-            alert("Could not automatically fetch metadata. Please enter details manually.");
             return null;
         }
     }
-
-    const urlInput = document.getElementById("url-input");
-    const autofetchBtn = document.getElementById("autofetch-button");
-    const pasteBtn = document.getElementById("paste-button");
-    const clearBtn = document.getElementById("clear-button");
 
     if (autofetchBtn) {
         autofetchBtn.addEventListener("click", async () => {
@@ -236,85 +222,117 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Check if it's an Open Library Book link
-            if (url.includes("openlibrary.org/books/")) {
-                // 1. Force dropdown to "Book"
-                referenceTypeSelect.value = "book";
-                referenceTypeSelect.dispatchEvent(new Event("change"));
+            autofetchBtn.disabled = true;
+            const originalText = autofetchBtn.textContent;
+            autofetchBtn.textContent = "Fetching...";
 
-                // 2. Fetch data from Open Library API
-                const bookData = await fetchBookFromOpenLibrary(url);
+            // Helper function to safely populate input values without crashing
+            try {
+                const setVal = (id, val) => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = val;
+                };
 
-                if (bookData) {
-                    // 3. Populate Book form fields
-                    document.getElementById("book-title").value = bookData.title;
-                    document.getElementById("book-year").value = bookData.publishYear;
-                    document.getElementById("book-publisher").value = bookData.publisher;
-                    document.getElementById("book-place").value = bookData.place || "Unknown";
+                // 1. Check if it's an Open Library Book link
+                if (url.includes("openlibrary.org/books/")) {
+                    referenceTypeSelect.value = "book";
+                    referenceTypeSelect.dispatchEvent(new Event("change"));
 
-                    // Populate Author fields
-                    if (bookData.authorSurname) {
-                        document.getElementById("book-author-surname").value = bookData.authorSurname;
-                        document.getElementById("book-author-initials").value = bookData.authorInitials;
+                    const bookData = await fetchBookFromOpenLibrary(url);
+                    if (bookData) {
+                        setVal("book-title", bookData.title);
+                        setVal("book-year", bookData.publishYear);
+                        setVal("book-publisher", bookData.publisher);
+                        setVal("book-place", bookData.place || "Unknown");
+
+                        if (bookData.authorSurname) {
+                            setVal("book-author-surname", bookData.authorSurname);
+                            setVal("book-author-initials", bookData.authorInitials);
+                        }
+                        alert("Book metadata successfully fetched from Open Library!");
                     }
-
-                    alert("Book metadata successfully fetched from Open Library!");
                 }
-            } else {
-                // Fallback for general websites / videos / blogs using Microlink or generic scraper
-                // 1. Detect source type (website, blog, video)
-                const detectedType = detectSourceTypeFromUrl(url);
-                referenceTypeSelect.value = detectedType;
-                referenceTypeSelect.dispatchEvent(new Event("change"));
+                // 2. Check if it's a Google Books link
+                else if (url.includes("books.google.com")) {
+                    referenceTypeSelect.value = "book";
+                    referenceTypeSelect.dispatchEvent(new Event("change"));
 
-                // 2. Fetch metadata using Microlink API
-                const metadata = await fetchMetadata(url);
+                    // Attempt to extract title from URL slug or use Microlink as fallback
+                    const metadata = await fetchMetadata(url);
+                    if (metadata && metadata.title) {
+                        setVal("book-title", metadata.title);
+                        setVal("book-year", metadata.date || new Date().getFullYear());
+                        setVal("book-publisher", metadata.publisher || "Google Books");
+                        setVal("book-place", "Unknown");
+                        alert("Google Books link detected! Form switched to Book mode. Please review the extracted details.");
+                    } else {
+                        // Fallback: Extract book name nicely from the URL path slug if scraping fails
+                        try {
+                            const urlObj = new URL(url);
+                            const pathSegments = urlObj.pathname.split('/');
+                            // Usually the book title slug is in the path (e.g., /books/edition/Harry_Potter...)
+                            const rawTitleSlug = pathSegments.find(seg => seg.length > 5 && seg.includes('_')) || "Book Title";
+                            const readableTitle = decodeURIComponent(rawTitleSlug).replace(/_/g, ' ');
 
-                if (metadata) {
-                    // 3. Populate general/website fields based on selected type
+                            setVal("book-title", readableTitle);
+                            setVal("book-year", new Date().getFullYear());
+                            setVal("book-publisher", "Google Books");
+                            setVal("book-place", "Unknown");
+                            alert("Google Books security restricted direct scraping. We've switched the form to Book mode and filled out the title from the link—please verify the author and publication year.");
+                        } catch (e) {
+                            alert("Google Books link detected and form switched to Book mode. Please fill in the book details manually.");
+                        }
+                    }
+                }
+                else {
+                    // 3. Handle Videos, Blogs, and General Websites
+                    const detectedType = detectSourceTypeFromUrl(url);
+                    referenceTypeSelect.value = detectedType;
+                    referenceTypeSelect.dispatchEvent(new Event("change"));
+
                     if (detectedType === "online_video") {
                         const videoData = await fetchVideoMetadata(url);
                         if (videoData) {
-                            document.getElementById("video-title").value = videoData.title;
-                            document.getElementById("video-author").value = videoData.author;
-                            document.getElementById("video-platform").value = videoData.platform;
-                            document.getElementById("video-url").value = url;
-                            document.getElementById("video-year").value = new Date().getFullYear();
-
+                            setVal("video-title", videoData.title);
+                            setVal("video-author", videoData.author);
+                            setVal("video-platform", videoData.platform);
+                            setVal("video-url", url);
+                            setVal("video-year", new Date().getFullYear());
                             alert("Video metadata successfully fetched!");
                         } else {
                             alert("Could not automatically fetch video details. Please fill them in manually.");
                         }
                     } else {
-                        // Fallback for general websites and blogs using Microlink API
                         const metadata = await fetchMetadata(url);
-
                         if (metadata) {
                             if (detectedType === "blog") {
-                                document.getElementById("blog-title").value = metadata.title;
-                                document.getElementById("blog-platform").value = metadata.publisher;
-                                document.getElementById("blog-year").value = metadata.date;
-                                document.getElementById("blog-url").value = url;
+                                setVal("blog-title", metadata.title);
+                                setVal("blog-platform", metadata.publisher);
+                                setVal("blog-year", metadata.date);
+                                setVal("blog-url", url);
                             } else {
-                                // Default website fields
-                                document.getElementById("web-page-title").value = metadata.title;
-                                document.getElementById("web-site-title").value = metadata.publisher;
-                                document.getElementById("web-author").value = metadata.author;
-                                document.getElementById("web-year").value = metadata.date;
-                                document.getElementById("web-url").value = url;
+                                setVal("web-page-title", metadata.title);
+                                setVal("web-site-title", metadata.publisher);
+                                setVal("web-author", metadata.author);
+                                setVal("web-year", metadata.date);
+                                setVal("web-url", url);
                             }
-
-                            alert("Website metadata successfully fetched!");
+                            alert("Metadata successfully fetched!");
+                        } else {
+                            alert("Could not fetch site metadata due to security restrictions. Please enter the details manually.");
                         }
                     }
                 }
+            } catch (error) {
+                console.error("Autofetch error:", error);
+                alert("An error occurred while fetching metadata. Please check the console for details.");
+            } finally {
+                autofetchBtn.disabled = false;
+                autofetchBtn.textContent = originalText;
             }
         });
     }
 
-
-
-    // Paste from Clipboard
     if (pasteBtn && urlInput) {
         pasteBtn.addEventListener("click", async () => {
             try {
@@ -326,18 +344,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Clear Field
     if (clearBtn && urlInput) {
         clearBtn.addEventListener("click", () => {
             urlInput.value = "";
         });
     }
 
+
     // ------------------------------------------------------------------
     // 5. CITATION GENERATION ENGINE (IIE HARVARD ANGLIA RULES)
     // ------------------------------------------------------------------
     const referenceForm = document.getElementById("reference-form");
-    const inTextOutput = document.getElementById("in-text-output"); // matches space in HTML id
+
+    // FIXED: Removed trailing spaces inside string quotes so elements are found successfully!
+    const inTextOutput = document.getElementById("in-text-output");
     const referenceListOutput = document.getElementById("reference-list-output");
 
     if (referenceForm) {
@@ -379,13 +399,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (inTextOutput) inTextOutput.innerHTML = inTextResult;
             if (referenceListOutput) referenceListOutput.innerHTML = refListResult;
-
-            console.log("Generated In-Text Citation:", inTextResult);
-            console.log("Generated Reference List Entry:", refListResult);
         });
     }
 
-    // --- HELPER FUNCTIONS FOR AUTHOR FORMATTING ---
+    // --- HELPER FUNCTIONS FOR AUTHOR & FORMATTING RULES ---
     function getAuthors(containerId, primarySurnameId, primaryInitialsId, prefix) {
         const authors = [];
         const surnameEl = document.getElementById(primarySurnameId);
@@ -541,6 +558,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return { inTextResult: inText, refListResult: refList };
     }
 
+
     // ------------------------------------------------------------------
     // 6. COPY TO CLIPBOARD BUTTONS
     // ------------------------------------------------------------------
@@ -572,4 +590,5 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
+
 });

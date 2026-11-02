@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             autofetchBtn.disabled = true;
             const originalHTML = autofetchBtn.innerHTML;
-            
+
             // Set button content with animated dots HTML structure
             autofetchBtn.innerHTML = `Fetching Metadata<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>`;
 
@@ -606,12 +606,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (contactForm) {
         contactForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
+            e.preventDefault(); // This stops the browser from doing a default redirect/page reload!
+
             const submitBtn = document.getElementById("submit-btn");
-            const originalBtnText = submitBtn.textContent;
-            
-            submitBtn.disabled = true;
-            submitBtn.textContent = "[SENDING...]";
+            const originalBtnText = submitBtn ? submitBtn.textContent : "[SEND MESSAGE]";
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = "[SENDING...]";
+            }
             if (formStatus) formStatus.textContent = "";
 
             const formData = new FormData(contactForm);
@@ -621,7 +624,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     method: "POST",
                     body: formData,
                     headers: {
-                        'Accept': 'json'
+                        'Accept': 'application/json'
                     }
                 });
 
@@ -644,8 +647,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     formStatus.textContent = "Network error. Please check your connection and try again.";
                 }
             } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalBtnText;
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                }
             }
         });
     }

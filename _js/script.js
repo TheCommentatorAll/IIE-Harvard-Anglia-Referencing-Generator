@@ -102,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function fetchVideoMetadata(url) {
         try {
-            // If it's a YouTube link, use YouTube's native oEmbed endpoint for pristine titles & authors
             if (url.includes("youtube.com") || url.includes("youtu.be")) {
                 const oEmbedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`;
                 const response = await fetch(oEmbedUrl);
@@ -117,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            // Fallback to Microlink API for other video sites (TEDx, Vimeo, etc.)
+            // Fallback to Microlink API
             const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
             const result = await response.json();
 
@@ -132,8 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
             throw new Error("Failed to fetch video metadata.");
         } catch (error) {
             console.error("Video Fetch Error:", error);
-            alert("Could not automatically fetch video details. Please fill them in manually.");
-            return null;
+            return null; // Return null instead of alerting immediately so you can handle fallback
         }
     }
 
@@ -281,28 +279,34 @@ document.addEventListener("DOMContentLoaded", () => {
                             document.getElementById("video-author").value = videoData.author;
                             document.getElementById("video-platform").value = videoData.platform;
                             document.getElementById("video-url").value = url;
-
-                            // Auto-fill current year and access date if blank
-                            const currentYear = new Date().getFullYear();
-                            document.getElementById("video-year").value = currentYear;
+                            document.getElementById("video-year").value = new Date().getFullYear();
 
                             alert("Video metadata successfully fetched!");
+                        } else {
+                            alert("Could not automatically fetch video details. Please fill them in manually.");
                         }
-                    } else if (detectedType === "blog") {
-                        document.getElementById("blog-title").value = metadata.title;
-                        document.getElementById("blog-platform").value = metadata.publisher;
-                        document.getElementById("blog-year").value = metadata.date;
-                        document.getElementById("blog-url").value = url;
                     } else {
-                        // Default website fields
-                        document.getElementById("web-page-title").value = metadata.title;
-                        document.getElementById("web-site-title").value = metadata.publisher;
-                        document.getElementById("web-author").value = metadata.author;
-                        document.getElementById("web-year").value = metadata.date;
-                        document.getElementById("web-url").value = url;
-                    }
+                        // Fallback for general websites and blogs using Microlink API
+                        const metadata = await fetchMetadata(url);
 
-                    alert("Website metadata successfully fetched!");
+                        if (metadata) {
+                            if (detectedType === "blog") {
+                                document.getElementById("blog-title").value = metadata.title;
+                                document.getElementById("blog-platform").value = metadata.publisher;
+                                document.getElementById("blog-year").value = metadata.date;
+                                document.getElementById("blog-url").value = url;
+                            } else {
+                                // Default website fields
+                                document.getElementById("web-page-title").value = metadata.title;
+                                document.getElementById("web-site-title").value = metadata.publisher;
+                                document.getElementById("web-author").value = metadata.author;
+                                document.getElementById("web-year").value = metadata.date;
+                                document.getElementById("web-url").value = url;
+                            }
+
+                            alert("Website metadata successfully fetched!");
+                        }
+                    }
                 }
             }
         });

@@ -85,7 +85,7 @@
             <section id="contact-form-section">
                 <h3>01. Dispatch Message</h3>
 
-                <form action="#" method="POST" id="contact-form">
+                <form action="https://formspree.io/f/xgaapler" method="POST" id="contact-form">
                     <fieldset>
                         <legend>User Information</legend>
 
@@ -93,6 +93,7 @@
                         <input type="text" id="user-name" name="name" required placeholder="e.g., Jane Doe">
 
                         <label for="user-email">Email Address:</label>
+                        <!-- name="email" is required by Formspree so it knows where to reply/confirm -->
                         <input type="email" id="user-email" name="email" required placeholder="e.g., user@example.com">
                     </fieldset>
 
@@ -113,7 +114,10 @@
                     </fieldset>
                     <br>
 
-                    <button type="submit" class="btn-retro">[SEND MESSAGE]</button>
+                    <button type="submit" class="btn-retro" id="submit-btn">[SEND MESSAGE]</button>
+
+                    <!-- Success or status message container -->
+                    <p id="form-status" style="margin-top: 1rem; font-weight: bold;"></p>
                 </form>
             </section>
 

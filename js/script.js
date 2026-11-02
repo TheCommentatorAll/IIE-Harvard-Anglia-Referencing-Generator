@@ -29,6 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (menuClose) menuClose.addEventListener("click", closeSidebar);
     if (overlay) overlay.addEventListener("click", closeSidebar);
 
+    // Automatically set QR code source to current page URL
+    const qrImage = document.querySelector(".qr-code-img");
+    if (qrImage) {
+        const currentUrl = encodeURIComponent(window.location.href);
+        qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${currentUrl}`;
+    }
+
 
     // ------------------------------------------------------------------
     // REFERENCE TYPE TOGGLING (SOURCE SELECTOR)

@@ -34,25 +34,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const referenceTypeSelect = document.getElementById("reference-type");
     const fieldsets = document.querySelectorAll(".source-fieldset");
 
-    if (referenceTypeSelect) {
-        referenceTypeSelect.addEventListener("change", (e) => {
-            const selectedType = e.target.value;
-
-            // Hide all fieldsets
-            fieldsets.forEach((fieldset) => {
-                fieldset.classList.remove("active");
-                fieldset.style.display = "none";
-            });
-
-            // Show selected fieldset
-            if (selectedType) {
-                const activeFieldset = document.getElementById(`fields-${selectedType}`);
-                if (activeFieldset) {
-                    activeFieldset.classList.add("active");
-                    activeFieldset.style.display = "block";
-                }
-            }
+    function showFieldset(type) {
+        // "online_video" -> "fields-online-video"
+        const targetId = type ? `fields-${type.replace(/_/g, "-")}` : "";
+        fieldsets.forEach((fs) => {
+            const isActive = fs.id === targetId;
+            fs.classList.toggle("active", isActive);
+            fs.style.display = isActive ? "block" : "none";
+            fs.disabled = !isActive;   // disabled fieldsets are skipped by validation
         });
+    }
+    if (referenceTypeSelect) {
+        referenceTypeSelect.addEventListener("change", (e) => showFieldset(e.target.value));
     }
 
     // ------------------------------------------------------------------
@@ -104,6 +97,43 @@ document.addEventListener("DOMContentLoaded", () => {
             return "blog";
         } else {
             return "website"; // Default fallback
+        }
+    }
+
+    async function fetchVideoMetadata(url) {
+        try {
+            // If it's a YouTube link, use YouTube's native oEmbed endpoint for pristine titles & authors
+            if (url.includes("youtube.com") || url.includes("youtu.be")) {
+                const oEmbedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`;
+                const response = await fetch(oEmbedUrl);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return {
+                        title: data.title || "",
+                        author: data.author_name || "",
+                        platform: "YouTube"
+                    };
+                }
+            }
+
+            // Fallback to Microlink API for other video sites (TEDx, Vimeo, etc.)
+            const response = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
+            const result = await response.json();
+
+            if (result.status === "success") {
+                return {
+                    title: result.data.title || "",
+                    author: result.data.author || result.data.publisher || "",
+                    platform: result.data.publisher || "Online Platform"
+                };
+            }
+
+            throw new Error("Failed to fetch video metadata.");
+        } catch (error) {
+            console.error("Video Fetch Error:", error);
+            alert("Could not automatically fetch video details. Please fill them in manually.");
+            return null;
         }
     }
 
@@ -245,11 +275,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (metadata) {
                     // 3. Populate general/website fields based on selected type
                     if (detectedType === "online_video") {
-                        document.getElementById("video-title").value = metadata.title;
-                        document.getElementById("video-platform").value = metadata.publisher;
-                        document.getElementById("video-author").value = metadata.author;
-                        document.getElementById("video-year").value = metadata.date;
-                        document.getElementById("video-url").value = url;
+                        const videoData = await fetchVideoMetadata(url);
+                        if (videoData) {
+                            document.getElementById("video-title").value = videoData.title;
+                            document.getElementById("video-author").value = videoData.author;
+                            document.getElementById("video-platform").value = videoData.platform;
+                            document.getElementById("video-url").value = url;
+
+                            // Auto-fill current year and access date if blank
+                            const currentYear = new Date().getFullYear();
+                            document.getElementById("video-year").value = currentYear;
+
+                            alert("Video metadata successfully fetched!");
+                        }
                     } else if (detectedType === "blog") {
                         document.getElementById("blog-title").value = metadata.title;
                         document.getElementById("blog-platform").value = metadata.publisher;
@@ -335,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
             }
 
-            if (inTextOutput) inTextOutput.textContent = inTextResult;
+            if (inTextOutput) inTextOutput.innerHTML = inTextResult;
             if (referenceListOutput) referenceListOutput.innerHTML = refListResult;
 
             console.log("Generated In-Text Citation:", inTextResult);

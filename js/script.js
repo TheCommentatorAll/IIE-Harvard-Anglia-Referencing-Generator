@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function detectSourceTypeFromUrl(url) {
         // 1. Check for Book databases
-        if (url.includes("openlibrary.org/books/") || url.includes("books.google.com")) {
+        if (url.includes("openlibrary.org/books/") || url.includes("google.co.za/books")) {
             return "book";
         }
         // 2. Strict check for Video Platforms (avoid matching words like "/videos/" in news sites)
@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }
                 // 2. Check if it's a Google Books link
-                else if (url.includes("books.google.com")) {
+                else if (url.includes("google.co.za/books")) {
                     referenceTypeSelect.value = "book";
                     referenceTypeSelect.dispatchEvent(new Event("change"));
 
